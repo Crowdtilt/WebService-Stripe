@@ -25,10 +25,13 @@ my %WriteMakefileArgs = (
     "WebService::Client" => "0.0001"
   },
   "TEST_REQUIRES" => {
+    "Exporter" => 0,
     "File::Spec" => 0,
     "IO::Handle" => 0,
     "IPC::Open3" => 0,
+    "Test::Modern" => 0,
     "Test::More" => 0,
+    "lib" => 0,
     "strict" => 0,
     "warnings" => 0
   },
@@ -40,13 +43,16 @@ my %WriteMakefileArgs = (
 
 
 my %FallbackPrereqs = (
+  "Exporter" => 0,
   "File::Spec" => 0,
   "IO::Handle" => 0,
   "IPC::Open3" => 0,
   "Method::Signatures" => 0,
   "Moo" => 0,
+  "Test::Modern" => 0,
   "Test::More" => 0,
   "WebService::Client" => "0.0001",
+  "lib" => 0,
   "strict" => 0,
   "warnings" => 0
 );
