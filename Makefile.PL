@@ -22,7 +22,7 @@ my %WriteMakefileArgs = (
   "PREREQ_PM" => {
     "Method::Signatures" => 0,
     "Moo" => 0,
-    "WebService::Client" => "0.0001"
+    "WebService::Client" => "0.0100"
   },
   "TEST_REQUIRES" => {
     "Exporter" => 0,
@@ -51,7 +51,7 @@ my %FallbackPrereqs = (
   "Moo" => 0,
   "Test::Modern" => 0,
   "Test::More" => 0,
-  "WebService::Client" => "0.0001",
+  "WebService::Client" => "0.0100",
   "lib" => 0,
   "strict" => 0,
   "warnings" => 0
