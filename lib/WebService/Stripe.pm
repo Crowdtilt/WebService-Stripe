@@ -4,6 +4,7 @@ with 'WebService::Client';
 
 # VERSION
 
+use Carp qw(croak);
 use Method::Signatures;
 
 has api_key => (
@@ -16,7 +17,7 @@ has version => (
     default => '2014-11-05',
 );
 
-has '+base_url' => ( default => 'https://api.stripe.com/v1' );
+has '+base_url' => ( default => 'https://api.stripe.com' );
 
 has '+content_type' => ( default => 'application/x-www-form-urlencoded' );
 
@@ -25,16 +26,29 @@ method BUILD(@args) {
     $self->ua->default_header( 'Stripe-Version' => '2014-11-05' );
 }
 
+method next(HashRef $thing!, HashRef :$query) {
+    $query ||= {};
+    return undef unless $thing->{has_more};
+    my $starting_after = $thing->{data}[-1]{id} or return undef;
+    return $self->get( $thing->{url},
+        { %$query, starting_after => $starting_after } );
+}
+
 method create_customer(HashRef $cust) {
-    return $self->post( "/customers", $cust );
+    return $self->post( "/v1/customers", $cust );
 }
 
 method get_customer(Str $id!) {
-    return $self->get( "/customers/$id" );
+    return $self->get( "/v1/customers/$id" );
 }
 
 method update_customer(Str $id!, HashRef $data!) {
-    return $self->post( "/customers/$id", $data );
+    return $self->post( "/v1/customers/$id", $data );
+}
+
+method get_customers(HashRef :$query) {
+    $query ||= {};
+    return $self->get( "/v1/customers", $query );
 }
 
 # ABSTRACT: Stripe API bindings
@@ -78,6 +92,27 @@ Returns the updated customer.
 Example:
 
     $customer = $stripe->update_customer($id, { description => 'foo' });
+
+=head2 get_customers
+
+    get_customers(query => $query)
+
+Returns a list of customers.
+The query param is optional.
+
+=head2 next
+
+    next($collection)
+
+Returns the next page of results for the given collection.
+
+Example:
+
+    my $customers = $s->get_customers;
+    ...
+    while ($customers = $s->next($customers)) {
+        ...
+    }
 
 =cut
 

@@ -45,6 +45,27 @@ Example:
 
     $customer = $stripe->update_customer($id, { description => 'foo' });
 
+## get\_customers
+
+    get_customers(query => $query)
+
+Returns a list of customers.
+The query param is optional.
+
+## next
+
+    next($collection)
+
+Returns the next page of results for the given collection.
+
+Example:
+
+    my $customers = $s->get_customers;
+    ...
+    while ($customers = $s->next($customers)) {
+        ...
+    }
+
 # AUTHOR
 
 Naveed Massjouni <naveed@vt.edu>

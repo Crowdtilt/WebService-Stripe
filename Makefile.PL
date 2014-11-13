@@ -20,6 +20,7 @@ my %WriteMakefileArgs = (
   "LICENSE" => "perl",
   "NAME" => "WebService::Stripe",
   "PREREQ_PM" => {
+    "Carp" => 0,
     "Method::Signatures" => 0,
     "Moo" => 0,
     "WebService::Client" => "0.0100"
@@ -43,6 +44,7 @@ my %WriteMakefileArgs = (
 
 
 my %FallbackPrereqs = (
+  "Carp" => 0,
   "Exporter" => 0,
   "File::Spec" => 0,
   "IO::Handle" => 0,
