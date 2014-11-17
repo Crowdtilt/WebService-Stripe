@@ -66,6 +66,14 @@ Example:
         ...
     }
 
+## create\_charge
+
+    create_charge($data)
+
+## create\_token
+
+    create_token($data)
+
 # AUTHOR
 
 Naveed Massjouni <naveed@vt.edu>

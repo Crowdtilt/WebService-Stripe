@@ -51,6 +51,14 @@ method get_customers(HashRef :$query) {
     return $self->get( "/v1/customers", $query );
 }
 
+method create_token(HashRef $data) {
+    return $self->post( "/v1/tokens", $data );
+}
+
+method create_charge(HashRef $data) {
+    return $self->post( "/v1/charges", $data );
+}
+
 # ABSTRACT: Stripe API bindings
 
 =head1 SYNOPSIS
@@ -113,6 +121,14 @@ Example:
     while ($customers = $s->next($customers)) {
         ...
     }
+
+=head2 create_charge
+
+    create_charge($data)
+
+=head2 create_token
+
+    create_token($data)
 
 =cut
 
