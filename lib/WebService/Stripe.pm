@@ -51,12 +51,18 @@ method get_customers(HashRef :$query) {
     return $self->get( "/v1/customers", $query );
 }
 
-method create_token(HashRef $data) {
-    return $self->post( "/v1/tokens", $data );
+method create_token(HashRef $data, :$stripe_account) {
+    my $headers = {
+        ( stripe_account => $stripe_account ) x!! $stripe_account,
+    };
+    return $self->post( "/v1/tokens", $data, headers => $headers );
 }
 
-method create_charge(HashRef $data) {
-    return $self->post( "/v1/charges", $data );
+method create_charge(HashRef $data, :$stripe_account) {
+    my $headers = {
+        ( stripe_account => $stripe_account ) x!! $stripe_account,
+    };
+    return $self->post( "/v1/charges", $data, headers => $headers );
 }
 
 # ABSTRACT: Stripe API bindings
