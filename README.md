@@ -66,6 +66,11 @@ Example:
         ...
     }
 
+## create\_card
+
+    create_card($data, customer_id => 'cus_123')
+    create_card($data, customer => $customer)
+
 ## create\_charge
 
     create_charge($data)
