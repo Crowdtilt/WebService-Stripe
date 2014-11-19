@@ -24,7 +24,7 @@ my %WriteMakefileArgs = (
     "Carp" => 0,
     "Method::Signatures" => 0,
     "Moo" => 0,
-    "WebService::Client" => "0.0201"
+    "WebService::Client" => "0.0202"
   },
   "TEST_REQUIRES" => {
     "Exporter" => 0,
@@ -37,7 +37,7 @@ my %WriteMakefileArgs = (
     "strict" => 0,
     "warnings" => 0
   },
-  "VERSION" => "0.0001",
+  "VERSION" => "0.0100",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -55,7 +55,7 @@ my %FallbackPrereqs = (
   "Moo" => 0,
   "Test::Modern" => 0,
   "Test::More" => 0,
-  "WebService::Client" => "0.0201",
+  "WebService::Client" => "0.0202",
   "lib" => 0,
   "strict" => 0,
   "warnings" => 0
