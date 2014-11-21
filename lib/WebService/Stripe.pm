@@ -55,11 +55,22 @@ method create_card(HashRef $data, :$customer_id!) {
     return $self->post( "/v1/customers/$customer_id/cards", $data );
 }
 
+method get_charge(Str $id) {
+    return $self->get( "/v1/charges/$id" );
+}
+
 method create_charge(HashRef $data, :$stripe_account) {
     my $headers = {
         ( stripe_account => $stripe_account ) x!! $stripe_account,
     };
     return $self->post( "/v1/charges", $data, headers => $headers );
+}
+
+method capture_charge(Str $id, HashRef :$data={}, :$stripe_account) {
+    my $headers = {
+        ( stripe_account => $stripe_account ) x!! $stripe_account,
+    };
+    return $self->post( "/v1/charges/$id/capture", $data, headers => $headers );
 }
 
 method create_token(HashRef $data, :$stripe_account) {
@@ -137,9 +148,24 @@ Example:
     create_card($data, customer_id => 'cus_123')
     create_card($data, customer => $customer)
 
+=head2 get_charge
+
+    get_charge($id)
+
+Returns the charge for the given id.
+
 =head2 create_charge
 
     create_charge($data)
+
+Creates a charge.
+
+=head2 capture_charge
+
+    capture_charge($id, data => $data)
+
+Captures the charge with the given id.
+The data param is optional.
 
 =head2 create_token
 

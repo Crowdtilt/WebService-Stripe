@@ -4,7 +4,7 @@ WebService::Stripe - Stripe API bindings
 
 # VERSION
 
-version 0.0100
+version 0.0200
 
 # SYNOPSIS
 
@@ -71,9 +71,24 @@ Example:
     create_card($data, customer_id => 'cus_123')
     create_card($data, customer => $customer)
 
+## get\_charge
+
+    get_charge($id)
+
+Returns the charge for the given id.
+
 ## create\_charge
 
     create_charge($data)
+
+Creates a charge.
+
+## capture\_charge
+
+    capture_charge($id, data => $data)
+
+Captures the charge with the given id.
+The data param is optional.
 
 ## create\_token
 
