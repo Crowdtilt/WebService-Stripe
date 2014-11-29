@@ -1,5 +1,4 @@
 use Test::Modern;
-use lib '../WebService-Client/lib';
 use t::lib::Common qw(skip_unless_has_secret stripe);
 
 skip_unless_has_secret;
@@ -19,7 +18,7 @@ subtest 'basic stuff' => sub {
 };
 
 subtest 'create customer with no data' => sub {
-    my $cust = stripe->create_customer({ description => 'foo' });
+    my $cust = stripe->create_customer;
     ok $cust->{id};
 };
 

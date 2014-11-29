@@ -31,13 +31,13 @@ my %WriteMakefileArgs = (
     "File::Spec" => 0,
     "IO::Handle" => 0,
     "IPC::Open3" => 0,
+    "JSON" => 0,
     "Test::Modern" => 0,
     "Test::More" => 0,
-    "lib" => 0,
     "strict" => 0,
     "warnings" => 0
   },
-  "VERSION" => "0.0200",
+  "VERSION" => "0.0300",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -51,12 +51,12 @@ my %FallbackPrereqs = (
   "File::Spec" => 0,
   "IO::Handle" => 0,
   "IPC::Open3" => 0,
+  "JSON" => 0,
   "Method::Signatures" => 0,
   "Moo" => 0,
   "Test::Modern" => 0,
   "Test::More" => 0,
   "WebService::Client" => "0.0202",
-  "lib" => 0,
   "strict" => 0,
   "warnings" => 0
 );
