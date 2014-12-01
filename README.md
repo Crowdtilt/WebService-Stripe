@@ -4,7 +4,7 @@ WebService::Stripe - Stripe API bindings
 
 # VERSION
 
-version 0.0300
+version 0.0400
 
 # SYNOPSIS
 
@@ -96,9 +96,48 @@ The data param is optional.
 Refunds the charge with the given id.
 The data param is optional.
 
+## get\_token
+
+    get_token($id)
+
 ## create\_token
 
     create_token($data)
+
+## get\_account
+
+    get_account($id)
+
+## create\_account
+
+    create_account($data)
+
+## update\_account
+
+    update_account($id, data => $data)
+
+## add\_bank
+
+    add_bank($data, account_id => $account_id)
+
+Add a new bank account.
+
+Example:
+
+    my $account = $stripe->create_account({
+        managed => 'true',
+        country => 'CA',
+    });
+
+    my $bank = $s->add_bank(
+        {
+            'bank_account[country]'        => 'CA',
+            'bank_account[currency]'       => 'cad',
+            'bank_account[routing_number]' => '00022-001',
+            'bank_account[account_number]' => '000123456789',
+        },
+        account_id => $account->{id},
+    );
 
 # AUTHOR
 
