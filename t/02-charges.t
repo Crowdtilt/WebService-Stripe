@@ -65,8 +65,3 @@ subtest 'refund a debit' => sub {
 };
 
 done_testing;
-
-#method refund_charge(Str $id, HashRef :$data, @rest) {
-#    return $self->post( "/v1/charges/$id/refunds", $data, @rest );
-#}
-

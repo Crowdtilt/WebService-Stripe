@@ -4,7 +4,7 @@ WebService::Stripe - Stripe API bindings
 
 # VERSION
 
-version 0.0400
+version 0.0500
 
 # SYNOPSIS
 
@@ -60,9 +60,9 @@ Returns the next page of results for the given collection.
 
 Example:
 
-    my $customers = $s->get_customers;
+    my $customers = $stripe->get_customers;
     ...
-    while ($customers = $s->next($customers)) {
+    while ($customers = $stripe->next($customers)) {
         ...
     }
 
@@ -120,7 +120,7 @@ The data param is optional.
 
     add_bank($data, account_id => $account_id)
 
-Add a new bank account.
+Add a bank to an account.
 
 Example:
 
@@ -129,7 +129,7 @@ Example:
         country => 'CA',
     });
 
-    my $bank = $s->add_bank(
+    my $bank = $stripe->add_bank(
         {
             'bank_account[country]'        => 'CA',
             'bank_account[currency]'       => 'cad',
@@ -139,13 +139,31 @@ Example:
         account_id => $account->{id},
     );
 
+    # or add a tokenised bank
+
+    my $bank_token = $stripe->create_token({
+        'bank_account[country]'        => 'CA',
+        'bank_account[currency]'       => 'cad',
+        'bank_account[routing_number]' => '00022-001',
+        'bank_account[account_number]' => '000123456789',
+    });
+
+    $stripe->add_bank(
+        { bank_account => $bank_token->{id} },
+        account_id => $account->{id},
+    );
+
+## update\_bank
+
+    update_bank($id, account_id => $account_id, data => $data)
+
 # AUTHOR
 
 Naveed Massjouni <naveed@vt.edu>
 
 # COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2014 by Tilt, Inc..
+This software is copyright (c) 2014 by Tilt, Inc.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

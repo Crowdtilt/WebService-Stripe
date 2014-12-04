@@ -26,7 +26,7 @@ method BUILD(@args) {
     $self->ua->default_header( 'Stripe-Version' => '2014-11-05' );
 }
 
-method next(HashRef $thing!, HashRef :$query) {
+method next(HashRef $thing, HashRef :$query) {
     $query ||= {};
     return undef unless $thing->{has_more};
     my $starting_after = $thing->{data}[-1]{id} or return undef;
@@ -86,12 +86,24 @@ method get_account(Str $id) {
     return $self->get( "/v1/accounts/$id" );
 }
 
-method update_account(Str $id, HashRef :$data) {
+method update_account(Str $id, HashRef :$data!) {
     return $self->post( "/v1/accounts/$id", $data );
 }
 
-method add_bank(HashRef $data, Str :$account_id) {
+method add_bank(HashRef $data, Str :$account_id!) {
     return $self->post( "/v1/accounts/$account_id/bank_accounts", $data );
+}
+
+method update_bank(Str $id, Str :$account_id!, HashRef :$data!) {
+    return $self->post( "/v1/accounts/$account_id/bank_accounts/$id", $data );
+}
+
+method delete_bank(Str $id, Str :$account_id!) {
+    return $self->delete( "/v1/accounts/$account_id/bank_accounts/$id" );
+}
+
+method get_banks(Str :$account_id!) {
+    return $self->get( "/v1/accounts/$account_id/bank_accounts" );
 }
 
 # ABSTRACT: Stripe API bindings
@@ -151,9 +163,9 @@ Returns the next page of results for the given collection.
 
 Example:
 
-    my $customers = $s->get_customers;
+    my $customers = $stripe->get_customers;
     ...
-    while ($customers = $s->next($customers)) {
+    while ($customers = $stripe->next($customers)) {
         ...
     }
 
@@ -211,7 +223,7 @@ The data param is optional.
 
     add_bank($data, account_id => $account_id)
 
-Add a new bank account.
+Add a bank to an account.
 
 Example:
 
@@ -220,7 +232,7 @@ Example:
         country => 'CA',
     });
 
-    my $bank = $s->add_bank(
+    my $bank = $stripe->add_bank(
         {
             'bank_account[country]'        => 'CA',
             'bank_account[currency]'       => 'cad',
@@ -229,6 +241,24 @@ Example:
         },
         account_id => $account->{id},
     );
+
+    # or add a tokenised bank
+
+    my $bank_token = $stripe->create_token({
+        'bank_account[country]'        => 'CA',
+        'bank_account[currency]'       => 'cad',
+        'bank_account[routing_number]' => '00022-001',
+        'bank_account[account_number]' => '000123456789',
+    });
+
+    $stripe->add_bank(
+        { bank_account => $bank_token->{id} },
+        account_id => $account->{id},
+    );
+
+=head2 update_bank
+
+    update_bank($id, account_id => $account_id, data => $data)
 
 =cut
 
