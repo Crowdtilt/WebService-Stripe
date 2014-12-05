@@ -4,7 +4,7 @@ WebService::Stripe - Stripe API bindings
 
 # VERSION
 
-version 0.0500
+version 0.0600
 
 # SYNOPSIS
 
@@ -156,6 +156,26 @@ Example:
 ## update\_bank
 
     update_bank($id, account_id => $account_id, data => $data)
+
+## create\_transfer
+
+    create_transfer($data)
+
+## get\_transfer
+
+    get_transfer($id)
+
+## get\_transfers
+
+    get_transfers(query => $query)
+
+## update\_transfer
+
+    update_transfer($id, data => $data)
+
+## cancel\_transfer
+
+    cancel_transfer($id)
 
 # AUTHOR
 
