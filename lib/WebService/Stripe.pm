@@ -106,8 +106,10 @@ method get_banks(Str :$account_id!) {
     return $self->get( "/v1/accounts/$account_id/bank_accounts" );
 }
 
-method create_transfer(HashRef $data) {
-    return $self->post( "/v1/transfers", $data );
+method create_transfer(HashRef $data, Maybe[Str] :$account_id) {
+    return $self->post("/v1/transfers", $data, headers => {
+        $account_id ? ('Stripe-Account' => $account_id) : (),
+    });
 }
 
 method get_transfer(Str $id) {
