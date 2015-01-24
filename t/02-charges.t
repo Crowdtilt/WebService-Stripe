@@ -20,14 +20,14 @@ subtest 'create charge' => sub {
         card        => $card->{id},
         currency    => 'USD',
         customer    => $customer->{id},
-        capture     => JSON::true,
+        capture     => 'true',
         description => 'foo',
     });
     cmp_deeply $charge,
         TD->superhashof({
             amount      => 1000,
             description => 'foo',
-            captured    => TD->str('true'),
+            captured    => JSON::true,
         }),
         'created charge';
 };
@@ -38,10 +38,10 @@ subtest 'refund a hold' => sub {
         card        => $card->{id},
         currency    => 'USD',
         customer    => $customer->{id},
-        capture     => JSON::false,
+        capture     => 'false',
     });
     cmp_deeply $charge,
-        TD->superhashof({ amount => 1000, captured => TD->str('false') }),
+        TD->superhashof({ amount => 1000, captured => JSON::false }),
         'created hold';
     my $refund = stripe->refund_charge($charge->{id});
     cmp_deeply $refund, TD->superhashof({amount => 1000, id => TD->re('^re')}),
@@ -54,10 +54,10 @@ subtest 'refund a debit' => sub {
         card        => $card->{id},
         currency    => 'USD',
         customer    => $customer->{id},
-        capture     => JSON::true,
+        capture     => 'true',
     });
     cmp_deeply $charge,
-        TD->superhashof({ amount => 1000, captured => TD->str('true') }),
+        TD->superhashof({ amount => 1000, captured => JSON::true }),
         'created hold';
     my $refund = stripe->refund_charge($charge->{id});
     cmp_deeply $refund, TD->superhashof({amount => 1000, id => TD->re('^re')}),
