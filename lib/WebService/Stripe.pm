@@ -6,6 +6,7 @@ with 'WebService::Client';
 
 use Carp qw(croak);
 use Method::Signatures;
+use constant { MARKETPLACES_MIN_VERSION => '2014-11-05' };
 
 has api_key => (
     is       => 'ro',
@@ -14,7 +15,7 @@ has api_key => (
 
 has version => (
     is      => 'ro',
-    default => '2014-11-05',
+    default => MARKETPLACES_MIN_VERSION,
 );
 
 has '+base_url' => ( default => 'https://api.stripe.com' );
@@ -23,7 +24,7 @@ has '+content_type' => ( default => 'application/x-www-form-urlencoded' );
 
 method BUILD(@args) {
     $self->ua->default_headers->authorization_basic( $self->api_key, '' );
-    $self->ua->default_header( 'Stripe-Version' => '2014-11-05' );
+    $self->ua->default_header( 'Stripe-Version' => $self->version );
 }
 
 method next(HashRef $thing, HashRef :$query) {
