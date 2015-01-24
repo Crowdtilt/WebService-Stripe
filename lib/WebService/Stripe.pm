@@ -39,6 +39,10 @@ method create_customer(HashRef $data={}) {
     return $self->post( "/v1/customers", $data );
 }
 
+method get_balance() {
+    return $self->get( "/v1/balance" );
+}
+
 method get_customer(Str $id) {
     return $self->get( "/v1/customers/$id" );
 }
