@@ -35,100 +35,122 @@ method next(HashRef $thing, HashRef :$query) {
         { %$query, starting_after => $starting_after } );
 }
 
-method create_customer(HashRef $data={}) {
-    return $self->post( "/v1/customers", $data );
+method create_customer(Maybe[HashRef] $data, :$opts) {
+    return $self->_call(post => "customers", $data, $opts);
 }
 
-method get_balance() {
-    return $self->get( "/v1/balance" );
+method get_balance(:$opts) {
+    return $self->_call(get => "balance", undef, $opts);
 }
 
-method get_customer(Str $id) {
-    return $self->get( "/v1/customers/$id" );
+method get_customer(Str $id, :$opts) {
+    return $self->_call(get => "customers/$id", undef, $opts);
 }
 
-method update_customer(Str $id, HashRef $data) {
-    return $self->post( "/v1/customers/$id", $data );
+method update_customer(Str $id, HashRef $data, :$opts) {
+    return $self->_call(post => "customers/$id", $data, $opts);
 }
 
-method get_customers(HashRef :$query) {
-    return $self->get( "/v1/customers", $query );
+method get_customers(HashRef :$query, :$opts) {
+    return $self->_call(get => "customers", $query, $opts);
 }
 
-method create_card(HashRef $data, :$customer_id!) {
-    return $self->post( "/v1/customers/$customer_id/cards", $data );
+method create_card(HashRef $data, :$customer_id!, :$opts) {
+    return $self->_call(post => "customers/$customer_id/cards", $data, $opts);
 }
 
-method get_charge(Str $id) {
-    return $self->get( "/v1/charges/$id" );
+method get_charge(Str $id, :$opts) {
+    return $self->_call(get => "charges/$id", undef, $opts);
 }
 
-method create_charge(HashRef $data) {
-    return $self->post( "/v1/charges", $data );
+method create_charge(HashRef $data, :$opts) {
+    return $self->_call(post => "charges", $data, $opts);
 }
 
-method capture_charge(Str $id, HashRef :$data) {
-    return $self->post( "/v1/charges/$id/capture", $data );
+method capture_charge(Str $id, HashRef :$data, :$opts) {
+    return $self->_call(post => "charges/$id/capture", $data, $opts);
 }
 
-method refund_charge(Str $id, HashRef :$data) {
-    return $self->post( "/v1/charges/$id/refunds", $data );
+method refund_charge(Str $id, HashRef :$data, :$opts) {
+    return $self->_call(post => "charges/$id/refunds", $data, $opts);
 }
 
-method create_token(HashRef $data) {
-    return $self->post( "/v1/tokens", $data );
+method create_token(HashRef $data, :$opts) {
+    return $self->_call(post => "tokens", $data, $opts);
 }
 
-method get_token(Str $id) {
-    return $self->get( "/v1/tokens/$id" );
+method get_token(Str $id, :$opts) {
+    return $self->_call(get => "tokens/$id", undef, $opts);
 }
 
-method create_account(HashRef $data) {
-    return $self->post( "/v1/accounts", $data );
+method create_account(HashRef $data, :$opts) {
+    return $self->_call(post => "accounts", $data, $opts);
 }
 
-method get_account(Str $id) {
-    return $self->get( "/v1/accounts/$id" );
+method get_account(Str $id, :$opts) {
+    return $self->_call(get => "accounts/$id", undef, $opts);
 }
 
-method update_account(Str $id, HashRef :$data!) {
-    return $self->post( "/v1/accounts/$id", $data );
+method update_account(Str $id, HashRef :$data!, :$opts) {
+    return $self->_call(post => "accounts/$id", $data, $opts);
 }
 
-method add_bank(HashRef $data, Str :$account_id!) {
-    return $self->post( "/v1/accounts/$account_id/bank_accounts", $data );
+method add_bank(HashRef $data, Str :$account_id!, :$opts) {
+    my $url = "accounts/$account_id/bank_accounts";
+    return $self->_call(post => $url, $data, $opts);
 }
 
-method update_bank(Str $id, Str :$account_id!, HashRef :$data!) {
-    return $self->post( "/v1/accounts/$account_id/bank_accounts/$id", $data );
+method update_bank(Str $id, Str :$account_id!, HashRef :$data!, :$opts) {
+    my $url = "accounts/$account_id/bank_accounts/$id";
+    return $self->_call(post => $url, $data, $opts);
 }
 
-method delete_bank(Str $id, Str :$account_id!) {
-    return $self->delete( "/v1/accounts/$account_id/bank_accounts/$id" );
+method delete_bank(Str $id, Str :$account_id!, :$opts) {
+    my $url = "accounts/$account_id/bank_accounts/$id";
+    return $self->_call(delete => $url, undef, $opts);
 }
 
-method get_banks(Str :$account_id!) {
-    return $self->get( "/v1/accounts/$account_id/bank_accounts" );
+method get_banks(Str :$account_id!, :$opts) {
+    my $url = "accounts/$account_id/bank_accounts";
+    return $self->_call(get => $url, undef, $opts);
 }
 
-method create_transfer(HashRef $data) {
-    return $self->post( "/v1/transfers", $data );
+method create_transfer(HashRef $data, :$opts) {
+    return $self->_call(post => "transfers", $data, $opts);
 }
 
-method get_transfer(Str $id) {
-    return $self->get( "/v1/transfers/$id" );
+method get_transfer(Str $id, :$opts) {
+    return $self->_call(get => "transfers/$id", undef, $opts);
 }
 
-method get_transfers(HashRef :$query) {
-    return $self->get( "/v1/transfers", $query );
+method get_transfers(HashRef :$query, :$opts) {
+    return $self->_call(get => "transfers", $query, $opts);
 }
 
-method update_transfer(Str $id, HashRef :$data!) {
-    return $self->post( "/v1/transfers/$id", $data );
+method update_transfer(Str $id, HashRef :$data!, :$opts) {
+    return $self->_call(post => "transfers/$id", $data, $opts);
 }
 
-method cancel_transfer(Str $id) {
-    return $self->post( "/v1/transfers/$id/cancel" );
+method cancel_transfer(Str $id, :$opts) {
+    return $self->_call(post => "transfers/$id/cancel", undef, $opts);
+}
+
+method _call($verb, $url, $data, $opts) {
+    my $headers = $self->_parse_opts($opts);
+    return $self->$verb("/v1/$url", $data, headers => $headers);
+}
+
+method _parse_opts($opts) {
+    my %headers;
+    if (ref $opts eq 'HASH') {
+        $headers{'Idempotency-Key'} = $opts->{idempotency_key}
+            if $opts->{idempotency_key};
+        $headers{'Stripe-Account'} = $opts->{stripe_account}
+            if $opts->{stripe_account};
+        $headers{'Stripe-Version'} = $opts->{stripe_version}
+            if $opts->{stripe_version};
+    }
+    return \%headers;
 }
 
 # ABSTRACT: Stripe API bindings
