@@ -18,7 +18,7 @@ subtest 'basic stuff' => sub {
 };
 
 subtest 'create customer with no data' => sub {
-    my $cust = stripe->create_customer;
+    my $cust = stripe->create_customer(undef);
     ok $cust->{id};
 };
 
