@@ -4,7 +4,7 @@ WebService::Stripe - Stripe API bindings
 
 # VERSION
 
-version 0.0600
+version 0.0700
 
 # SYNOPSIS
 
@@ -205,9 +205,10 @@ Example:
 
     get_balance()
 
-# AUTHOR
+# AUTHORS
 
-Naveed Massjouni <naveed@vt.edu>
+- Naveed Massjouni <naveed@vt.edu>
+- Dan Schmidt <danschmidt5189@gmail.com>
 
 # COPYRIGHT AND LICENSE
 

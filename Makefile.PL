@@ -11,7 +11,7 @@ use ExtUtils::MakeMaker;
 
 my %WriteMakefileArgs = (
   "ABSTRACT" => "Stripe API bindings",
-  "AUTHOR" => "Naveed Massjouni <naveed\@vt.edu>",
+  "AUTHOR" => "Naveed Massjouni <naveed\@vt.edu>, Dan Schmidt <danschmidt5189\@gmail.com>",
   "CONFIGURE_REQUIRES" => {
     "ExtUtils::MakeMaker" => 0
   },
@@ -38,7 +38,7 @@ my %WriteMakefileArgs = (
     "strict" => 0,
     "warnings" => 0
   },
-  "VERSION" => "0.0600",
+  "VERSION" => "0.0700",
   "test" => {
     "TESTS" => "t/*.t"
   }
