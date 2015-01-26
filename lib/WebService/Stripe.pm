@@ -35,100 +35,105 @@ method next(HashRef $thing, HashRef :$query) {
         { %$query, starting_after => $starting_after } );
 }
 
-method create_customer(HashRef $data={}) {
-    return $self->post( "/v1/customers", $data );
+method create_customer(Maybe[HashRef] $data, :$headers) {
+    return $self->post( "/v1/customers", $data, headers => $headers );
 }
 
-method get_balance() {
-    return $self->get( "/v1/balance" );
+method get_balance(:$headers) {
+    return $self->get( "/v1/balance", {}, headers => $headers );
 }
 
-method get_customer(Str $id) {
-    return $self->get( "/v1/customers/$id" );
+method get_customer(Str $id, :$headers) {
+    return $self->get( "/v1/customers/$id", {}, headers => $headers );
 }
 
-method update_customer(Str $id, HashRef $data) {
-    return $self->post( "/v1/customers/$id", $data );
+method update_customer(Str $id, HashRef $data, :$headers) {
+    return $self->post( "/v1/customers/$id", $data, headers => $headers );
 }
 
-method get_customers(HashRef :$query) {
-    return $self->get( "/v1/customers", $query );
+method get_customers(HashRef :$query, :$headers) {
+    return $self->get( "/v1/customers", $query, headers => $headers );
 }
 
-method create_card(HashRef $data, :$customer_id!) {
-    return $self->post( "/v1/customers/$customer_id/cards", $data );
+method create_card(HashRef $data, :$customer_id!, :$headers) {
+    return $self->post(
+        "/v1/customers/$customer_id/cards", $data, headers => $headers );
 }
 
-method get_charge(Str $id) {
-    return $self->get( "/v1/charges/$id" );
+method get_charge(Str $id, :$headers) {
+    return $self->get( "/v1/charges/$id", {}, headers => $headers );
 }
 
-method create_charge(HashRef $data) {
-    return $self->post( "/v1/charges", $data );
+method create_charge(HashRef $data, :$headers) {
+    return $self->post( "/v1/charges", $data, headers => $headers );
 }
 
-method capture_charge(Str $id, HashRef :$data) {
-    return $self->post( "/v1/charges/$id/capture", $data );
+method capture_charge(Str $id, HashRef :$data, :$headers) {
+    return $self->post( "/v1/charges/$id/capture", $data, headers => $headers );
 }
 
-method refund_charge(Str $id, HashRef :$data) {
-    return $self->post( "/v1/charges/$id/refunds", $data );
+method refund_charge(Str $id, HashRef :$data, :$headers) {
+    return $self->post( "/v1/charges/$id/refunds", $data, headers => $headers );
 }
 
-method create_token(HashRef $data) {
-    return $self->post( "/v1/tokens", $data );
+method create_token(HashRef $data, :$headers) {
+    return $self->post( "/v1/tokens", $data, headers => $headers );
 }
 
-method get_token(Str $id) {
-    return $self->get( "/v1/tokens/$id" );
+method get_token(Str $id, :$headers) {
+    return $self->get( "/v1/tokens/$id", {}, headers => $headers );
 }
 
-method create_account(HashRef $data) {
-    return $self->post( "/v1/accounts", $data );
+method create_account(HashRef $data, :$headers) {
+    return $self->post( "/v1/accounts", $data, headers => $headers );
 }
 
-method get_account(Str $id) {
-    return $self->get( "/v1/accounts/$id" );
+method get_account(Str $id, :$headers) {
+    return $self->get( "/v1/accounts/$id", {}, headers => $headers );
 }
 
-method update_account(Str $id, HashRef :$data!) {
-    return $self->post( "/v1/accounts/$id", $data );
+method update_account(Str $id, HashRef :$data!, :$headers) {
+    return $self->post( "/v1/accounts/$id", $data, headers => $headers );
 }
 
-method add_bank(HashRef $data, Str :$account_id!) {
-    return $self->post( "/v1/accounts/$account_id/bank_accounts", $data );
+method add_bank(HashRef $data, Str :$account_id!, :$headers) {
+    return $self->post(
+        "/v1/accounts/$account_id/bank_accounts", $data, headers => $headers );
 }
 
-method update_bank(Str $id, Str :$account_id!, HashRef :$data!) {
-    return $self->post( "/v1/accounts/$account_id/bank_accounts/$id", $data );
+method update_bank(Str $id, Str :$account_id!, HashRef :$data!, :$headers) {
+    return $self->post( "/v1/accounts/$account_id/bank_accounts/$id", $data,
+        headers => $headers );
 }
 
-method delete_bank(Str $id, Str :$account_id!) {
-    return $self->delete( "/v1/accounts/$account_id/bank_accounts/$id" );
+method delete_bank(Str $id, Str :$account_id!, :$headers) {
+    return $self->delete(
+        "/v1/accounts/$account_id/bank_accounts/$id", headers => $headers );
 }
 
-method get_banks(Str :$account_id!) {
-    return $self->get( "/v1/accounts/$account_id/bank_accounts" );
+method get_banks(Str :$account_id!, :$headers) {
+    return $self->get(
+        "/v1/accounts/$account_id/bank_accounts", {}, headers => $headers );
 }
 
-method create_transfer(HashRef $data) {
-    return $self->post( "/v1/transfers", $data );
+method create_transfer(HashRef $data, :$headers) {
+    return $self->post( "/v1/transfers", $data, headers => $headers );
 }
 
-method get_transfer(Str $id) {
-    return $self->get( "/v1/transfers/$id" );
+method get_transfer(Str $id, :$headers) {
+    return $self->get( "/v1/transfers/$id", {}, headers => $headers );
 }
 
-method get_transfers(HashRef :$query) {
-    return $self->get( "/v1/transfers", $query );
+method get_transfers(HashRef :$query, :$headers) {
+    return $self->get( "/v1/transfers", $query, headers => $headers );
 }
 
-method update_transfer(Str $id, HashRef :$data!) {
-    return $self->post( "/v1/transfers/$id", $data );
+method update_transfer(Str $id, HashRef :$data!, :$headers) {
+    return $self->post( "/v1/transfers/$id", $data, headers => $headers );
 }
 
-method cancel_transfer(Str $id) {
-    return $self->post( "/v1/transfers/$id/cancel" );
+method cancel_transfer(Str $id, :$headers) {
+    return $self->post("/v1/transfers/$id/cancel", undef, headers => $headers);
 }
 
 # ABSTRACT: Stripe API bindings
@@ -141,8 +146,35 @@ method cancel_transfer(Str $id) {
     );
     my $customer = $stripe->get_customer('cus_57eDUiS93cycyH');
 
-=head1 METHODS
+=head1 HEADERS
 
+WebService::Stripe supports passing custom headers to any API request by passing a hash of header values as the optional C<headers> named parameter:
+
+    $stripe->create_charge({ ... }, headers => { stripe_account => "acct_123" })
+
+Note that header names are normalized: C<foo_bar>, C<Foo-Bar>, and C<foo-bar> are equivalent.
+
+Three headers stand out in particular:
+
+=over
+
+=item Stripe-Version
+
+This indicates the version of the Stripe API to use. If not given, we default to C<2014-11-05>, which is the earliest version of the Stripe API to support marketplaces.
+
+=item Stripe-Account
+
+This specifies the ID of the account on whom the request is being made. It orients the Stripe API around that account, which may limit what records or actions are able to be taken. For example, a `get_card` request will fail if given the ID of a card that was not associated with the account.
+
+=item Idempotency-Key
+
+All POST methods support idempotent requests through setting the value of an Idempotency-Key header. This is useful for preventing a request from being executed twice, e.g. preventing double-charges. If two requests are issued with the same key, only the first results in the creation of a resource; the second returns the latest version of the existing object.
+
+This feature is in ALPHA and subject to change without notice. Contact Stripe to confirm the latest behavior and header name.
+
+=back
+
+=head1 METHODS
 
 =head2 get_customer
 
@@ -304,6 +336,10 @@ Example:
 =head2 cancel_transfer
 
     cancel_transfer($id)
+
+=head2 get_balance
+
+    get_balance()
 
 =cut
 

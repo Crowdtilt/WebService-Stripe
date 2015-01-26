@@ -14,6 +14,30 @@ version 0.0600
     );
     my $customer = $stripe->get_customer('cus_57eDUiS93cycyH');
 
+# HEADERS
+
+WebService::Stripe supports passing custom headers to any API request by passing a hash of header values as the optional `headers` named parameter:
+
+    $stripe->create_charge({ ... }, headers => { stripe_account => "acct_123" })
+
+Note that header names are normalized: `foo_bar`, `Foo-Bar`, and `foo-bar` are equivalent.
+
+Three headers stand out in particular:
+
+- Stripe-Version
+
+    This indicates the version of the Stripe API to use. If not given, we default to `2014-11-05`, which is the earliest version of the Stripe API to support marketplaces.
+
+- Stripe-Account
+
+    This specifies the ID of the account on whom the request is being made. It orients the Stripe API around that account, which may limit what records or actions are able to be taken. For example, a \`get\_card\` request will fail if given the ID of a card that was not associated with the account.
+
+- Idempotency-Key
+
+    All POST methods support idempotent requests through setting the value of an Idempotency-Key header. This is useful for preventing a request from being executed twice, e.g. preventing double-charges. If two requests are issued with the same key, only the first results in the creation of a resource; the second returns the latest version of the existing object.
+
+    This feature is in ALPHA and subject to change without notice. Contact Stripe to confirm the latest behavior and header name.
+
 # METHODS
 
 ## get\_customer
@@ -176,6 +200,10 @@ Example:
 ## cancel\_transfer
 
     cancel_transfer($id)
+
+## get\_balance
+
+    get_balance()
 
 # AUTHOR
 
