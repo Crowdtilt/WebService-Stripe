@@ -18,6 +18,25 @@ has version => (
     default => MARKETPLACES_MIN_VERSION,
 );
 
+has request_scrubber => (
+    is      => 'ro',
+    default => sub {
+        my ($req) = @_;
+        return undef unless $req->method =~ qr/GET|HEAD|OPTIONS/;
+        return $req;
+    },
+);
+
+has response_scrubber => (
+    is      => 'ro',
+    default => sub {
+        my ($res) = @_;
+        my $copy = $res->clone;
+        $copy->header('Authorization' => undef);
+        return $copy;
+    },
+);
+
 has '+base_url' => ( default => 'https://api.stripe.com' );
 
 has '+content_type' => ( default => 'application/x-www-form-urlencoded' );
@@ -135,6 +154,20 @@ method update_transfer(Str $id, HashRef :$data!, :$headers) {
 method cancel_transfer(Str $id, :$headers) {
     return $self->post("/v1/transfers/$id/cancel", undef, headers => $headers);
 }
+
+around _log_request => sub {
+    my ($orig, $self, $req) = @_;
+    if (my $loggable = $self->request_scrubber($req)) {
+        return $self->$orig($loggable);
+    }
+};
+
+around _log_response => sub {
+    my ($orig, $self, $res) = @_;
+    if (my $loggable = $self->response_scrubber($res)) {
+        return $self->$orig($loggable);
+    }
+};
 
 # ABSTRACT: Stripe API bindings
 
