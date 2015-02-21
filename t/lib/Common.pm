@@ -13,7 +13,11 @@ sub skip_unless_has_secret {
 
 sub stripe {
     my %params = @_;
-    state $client = WebService::Stripe->new( api_key => api_key(), %params );
+    state $client = WebService::Stripe->new(
+        api_key => api_key(),
+        version => '2014-12-17',
+        %params
+    );
     return $client;
 }
 

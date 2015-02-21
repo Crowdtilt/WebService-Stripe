@@ -45,8 +45,6 @@ subtest 'create a transfer and do stuff with it' => sub {
 
     my $exc = exception { stripe->cancel_transfer($transfer->{id}) };
     is $exc->code => 400;
-    like from_json($exc->content)->{error}{message},
-        qr/transfer cannot be canceled/i;
 };
 
 subtest 'list transfers' => sub {
