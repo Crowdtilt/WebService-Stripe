@@ -4,7 +4,7 @@ WebService::Stripe - Stripe API bindings
 
 # VERSION
 
-version 0.0700
+version 0.0800
 
 # SYNOPSIS
 
@@ -204,6 +204,26 @@ Example:
 ## get\_balance
 
     get_balance()
+
+## get\_bitcoin\_receivers
+
+    get_bitcoin_receivers()
+
+## create\_bitcoin\_receiver
+
+    create_bitcoin_receiver($data)
+
+Example:
+
+    my $receiver = $stripe->create_bitcoin_receiver({
+        amount   => 100,
+        currency => 'usd',
+        email    => 'bob@tilt.com',
+    });
+
+## get\_bitcoin\_receiver
+
+    get_bitcoin_receiver($id)
 
 # AUTHORS
 
