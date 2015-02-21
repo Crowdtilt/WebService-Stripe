@@ -136,6 +136,18 @@ method cancel_transfer(Str $id, :$headers) {
     return $self->post("/v1/transfers/$id/cancel", undef, headers => $headers);
 }
 
+method get_bitcoin_receivers(HashRef :$query, :$headers) {
+    return $self->get( "/v1/bitcoin/receivers", $query, headers => $headers );
+}
+
+method create_bitcoin_receiver(HashRef $data, :$headers) {
+    return $self->post( "/v1/bitcoin/receivers", $data, headers => $headers );
+}
+
+method get_bitcoin_receiver(Str $id, :$headers) {
+    return $self->get( "/v1/bitcoin/receivers/$id", {}, headers => $headers );
+}
+
 # ABSTRACT: Stripe API bindings
 
 =head1 SYNOPSIS
@@ -340,6 +352,26 @@ Example:
 =head2 get_balance
 
     get_balance()
+
+=head2 get_bitcoin_receivers
+
+    get_bitcoin_receivers()
+
+=head2 create_bitcoin_receiver
+
+    create_bitcoin_receiver($data)
+
+Example:
+
+    my $receiver = $stripe->create_bitcoin_receiver({
+        amount   => 100,
+        currency => 'usd',
+        email    => 'bob@tilt.com',
+    });
+
+=head2 get_bitcoin_receiver
+
+    get_bitcoin_receiver($id)
 
 =cut
 
