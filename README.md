@@ -4,7 +4,7 @@ WebService::Stripe - Stripe API bindings
 
 # VERSION
 
-version 0.0800
+version 0.0801
 
 # SYNOPSIS
 
@@ -13,6 +13,11 @@ version 0.0800
         version => '2014-11-05', # optional
     );
     my $customer = $stripe->get_customer('cus_57eDUiS93cycyH');
+
+# TESTING
+
+Set the PERL\_STRIPE\_TEST\_API\_KEY environment variable to your Stripe test
+secret, then run tests as you normally would using prove.
 
 # HEADERS
 

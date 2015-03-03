@@ -1,5 +1,5 @@
 use Test::Modern;
-use t::lib::Common qw(skip_unless_has_secret stripe);
+use t::lib::Common qw(:constants skip_unless_has_secret stripe);
 
 skip_unless_has_secret;
 
@@ -9,7 +9,7 @@ my $acct = stripe->create_account({
 });
 my $cust = stripe->create_customer(undef);
 my $card = stripe->create_card({
-    'card[number]'    => '5105105105105100',
+    'card[number]'    => STRIPE_CARD_AMEX,
     'card[exp_month]' => 12,
     'card[exp_year]'  => 2020,
 }, customer_id => $cust->{id});
@@ -46,7 +46,7 @@ subtest 'Use stripe_account to associate customers to an account' => sub {
 
     my $acct_cust = stripe->create_customer(undef, %headers);
     my $acct_card_tok = stripe->create_token({
-        'card[number]'    => '5105105105105100',
+        'card[number]'    => STRIPE_CARD_AMEX,
         'card[exp_month]' => 12,
         'card[exp_year]'  => 2020,
     }, %headers);

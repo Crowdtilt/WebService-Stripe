@@ -158,6 +158,11 @@ method get_bitcoin_receiver(Str $id, :$headers) {
     );
     my $customer = $stripe->get_customer('cus_57eDUiS93cycyH');
 
+=head1 TESTING
+
+Set the PERL_STRIPE_TEST_API_KEY environment variable to your Stripe test
+secret, then run tests as you normally would using prove.
+
 =head1 HEADERS
 
 WebService::Stripe supports passing custom headers to any API request by passing a hash of header values as the optional C<headers> named parameter:
