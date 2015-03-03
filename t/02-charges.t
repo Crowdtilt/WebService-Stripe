@@ -30,6 +30,23 @@ subtest 'create charge' => sub {
             captured    => JSON::true,
         }),
         'created charge';
+
+    $charge = stripe->get_charge($charge, query => { expand => ['customer'] });
+    cmp_deeply $charge->{customer}, TD->superhashof({
+        object => 'customer',
+        id     => $customer->{id},
+    }),
+        '... Fetched the charge with expanded "customer" relation';
+
+    $charge = stripe->update_charge($charge, {
+        description     => 'Foobar',
+        'metadata[bar]' => 'baz',
+    });
+    cmp_deeply $charge, TD->superhashof({
+        description => 'Foobar',
+        metadata    => { bar => 'baz' },
+    }),
+        '... Updated charge data';
 };
 
 subtest 'refund a hold' => sub {
