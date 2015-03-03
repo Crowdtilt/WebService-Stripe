@@ -1,5 +1,5 @@
 use Test::Modern;
-use t::lib::Common qw(skip_unless_has_secret stripe);
+use t::lib::Common qw(skip_unless_has_secret stripe :constants);
 use JSON;
 
 skip_unless_has_secret;
@@ -7,7 +7,7 @@ skip_unless_has_secret;
 my $customer = stripe->create_customer({ description => 'foo' });
 my $card = stripe->create_card(
     {
-        'card[number]'    => '5105105105105100',
+        'card[number]'    => STRIPE_CARD_VISA,
         'card[exp_month]' => 12,
         'card[exp_year]'  => 2020,
     },
