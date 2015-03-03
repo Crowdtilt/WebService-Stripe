@@ -4,7 +4,7 @@ WebService::Stripe - Stripe API bindings
 
 # VERSION
 
-version 0.0801
+version 0.0802
 
 # SYNOPSIS
 
@@ -101,9 +101,11 @@ Example:
 
 ## get\_charge
 
-    get_charge($id)
+    get_charge($id, query => { expand => ['customer'] })
 
-Returns the charge for the given id.
+Returns the charge for the given id. The optional :$query parameter allows
+passing query arguments. Passing an arrayref as a query param value will expand
+it into Stripe's expected array format.
 
 ## create\_charge
 
@@ -124,6 +126,18 @@ The data param is optional.
 
 Refunds the charge with the given id.
 The data param is optional.
+
+## update\_charge
+
+    update_charge($id, $data)
+
+Updates an existing charge object.
+
+## add\_source
+
+    add_source($cust_id, $card_data)
+
+Adds a new funding source (credit card) to an existing customer.
 
 ## get\_token
 

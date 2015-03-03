@@ -60,12 +60,18 @@ method create_card(HashRef $data, :$customer_id!, :$headers) {
         "/v1/customers/$customer_id/cards", $data, headers => $headers );
 }
 
-method get_charge(Str $id, :$headers) {
-    return $self->get( "/v1/charges/$id", {}, headers => $headers );
+method get_charge(HashRef|Str $charge, :$query, :$headers) {
+    $charge = $charge->{id} if ref $charge;
+    return $self->get( "/v1/charges/$charge", $query, headers => $headers );
 }
 
 method create_charge(HashRef $data, :$headers) {
     return $self->post( "/v1/charges", $data, headers => $headers );
+}
+
+method update_charge(HashRef|Str $charge, HashRef $data, :$headers) {
+    $charge = $charge->{id} if ref $charge;
+    return $self->post( "/v1/charges/$charge", $data, headers => $headers );
 }
 
 method capture_charge(Str $id, HashRef :$data, :$headers) {
@@ -74,6 +80,11 @@ method capture_charge(Str $id, HashRef :$data, :$headers) {
 
 method refund_charge(Str $id, HashRef :$data, :$headers) {
     return $self->post( "/v1/charges/$id/refunds", $data, headers => $headers );
+}
+
+method add_source(HashRef|Str $cust, HashRef $data, :$headers) {
+    $cust = $cust->{id} if ref $cust;
+    return $self->post( "/v1/customers/$cust/sources", $data, headers => $headers );
 }
 
 method create_token(HashRef $data, :$headers) {
@@ -249,9 +260,11 @@ Example:
 
 =head2 get_charge
 
-    get_charge($id)
+    get_charge($id, query => { expand => ['customer'] })
 
-Returns the charge for the given id.
+Returns the charge for the given id. The optional :$query parameter allows
+passing query arguments. Passing an arrayref as a query param value will expand
+it into Stripe's expected array format.
 
 =head2 create_charge
 
@@ -272,6 +285,18 @@ The data param is optional.
 
 Refunds the charge with the given id.
 The data param is optional.
+
+=head2 update_charge
+
+    update_charge($id, $data)
+
+Updates an existing charge object.
+
+=head2 add_source
+
+    add_source($cust_id, $card_data)
+
+Adds a new funding source (credit card) to an existing customer.
 
 =head2 get_token
 
