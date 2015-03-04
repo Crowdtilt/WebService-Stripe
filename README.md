@@ -4,7 +4,7 @@ WebService::Stripe - Stripe API bindings
 
 # VERSION
 
-version 0.0802
+version 0.0900
 
 # SYNOPSIS
 
