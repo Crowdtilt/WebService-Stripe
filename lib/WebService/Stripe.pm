@@ -27,12 +27,12 @@ method BUILD(@args) {
     $self->ua->default_header( 'Stripe-Version' => $self->version );
 }
 
-method next(HashRef $thing, HashRef :$query) {
+method next(HashRef $thing, HashRef :$query, HashRef :$headers) {
     $query ||= {};
     return undef unless $thing->{has_more};
     my $starting_after = $thing->{data}[-1]{id} or return undef;
     return $self->get( $thing->{url},
-        { %$query, starting_after => $starting_after } );
+        { %$query, starting_after => $starting_after }, headers => $headers );
 }
 
 method create_customer(Maybe[HashRef] $data, :$headers) {
