@@ -39,6 +39,10 @@ method create_customer(Maybe[HashRef] $data, :$headers) {
     return $self->post( "/v1/customers", $data, headers => $headers );
 }
 
+method get_application_fee(Str $id, :$headers) {
+    return $self->get( "/v1/application_fees/$id", {}, headers => $headers );
+}
+
 method get_balance(:$headers) {
     return $self->get( "/v1/balance", {}, headers => $headers );
 }
