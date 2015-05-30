@@ -4,7 +4,7 @@ WebService::Stripe - Stripe API bindings
 
 # VERSION
 
-version 0.0900
+version 0.1000
 
 # SYNOPSIS
 
@@ -158,6 +158,22 @@ Adds a new funding source (credit card) to an existing customer.
 ## update\_account
 
     update_account($id, data => $data)
+
+## upload\_identity\_document( $accountID, $absPathToPhoto )
+
+Uploads a photo ID to an account.
+
+Example:
+
+    my $account = $stripe->create_account({
+        managed => 'true',
+        country => 'CA',
+    });
+
+    my $file = $stripe->upload_identity_document( $account, '/tmp/photo.png' );
+    $stripe->update_account( $account->{id}, data => {
+        legal_entity[verification][document] => $file->{id},
+    });
 
 ## add\_bank
 
