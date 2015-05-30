@@ -5,8 +5,13 @@ with 'WebService::Client';
 # VERSION
 
 use Carp qw(croak);
+use HTTP::Request::Common qw( POST );
 use Method::Signatures;
-use constant { MARKETPLACES_MIN_VERSION => '2014-11-05' };
+use constant {
+    FILE_UPLOADS_URL         => 'https://uploads.stripe.com/v1/files',
+    FILE_PURPOSE_ID_DOCUMENT => 'identity_document',
+    MARKETPLACES_MIN_VERSION => '2014-11-05',
+};
 
 has api_key => (
     is       => 'ro',
@@ -109,6 +114,18 @@ method get_account(Str $id, :$headers) {
 
 method update_account(Str $id, HashRef :$data!, :$headers) {
     return $self->post( "/v1/accounts/$id", $data, headers => $headers );
+}
+
+method upload_identity_document(HashRef|Str $account_id, Str $filepath) {
+    return $self->req(
+        POST FILE_UPLOADS_URL,
+        Stripe_Account => ( ref $account_id ? $account_id->{id}: $account_id ),
+        Content_Type   => 'form-data',
+        Content        => [
+            purpose => FILE_PURPOSE_ID_DOCUMENT,
+            file    => [ $filepath ],
+        ],
+    );
 }
 
 method add_bank(HashRef $data, Str :$account_id!, :$headers) {
@@ -321,6 +338,22 @@ Adds a new funding source (credit card) to an existing customer.
 =head2 update_account
 
     update_account($id, data => $data)
+
+=head2 upload_identity_document( $accountID, $absPathToPhoto )
+
+Uploads a photo ID to an account.
+
+Example:
+
+    my $account = $stripe->create_account({
+        managed => 'true',
+        country => 'CA',
+    });
+
+    my $file = $stripe->upload_identity_document( $account, '/tmp/photo.png' );
+    $stripe->update_account( $account->{id}, data => {
+        legal_entity[verification][document] => $file->{id},
+    });
 
 =head2 add_bank
 
