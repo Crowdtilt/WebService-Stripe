@@ -91,6 +91,11 @@ method refund_charge(Str $id, HashRef :$data, :$headers) {
     return $self->post( "/v1/charges/$id/refunds", $data, headers => $headers );
 }
 
+method refund_app_fee(Str $fee_id, HashRef :$data, :$headers) {
+    my $url = "/v1/application_fees/$fee_id/refunds";
+    return $self->post( $url, $data, headers => $headers );
+}
+
 method add_source(HashRef|Str $cust, HashRef $data, :$headers) {
     $cust = $cust->{id} if ref $cust;
     return $self->post( "/v1/customers/$cust/sources", $data, headers => $headers );
@@ -305,6 +310,13 @@ The data param is optional.
     refund_charge($id, data => $data)
 
 Refunds the charge with the given id.
+The data param is optional.
+
+=head2 refund_app_fee
+
+    refund_app_fee($fee_id, data => $data)
+
+Refunds the application fee with the given id.
 The data param is optional.
 
 =head2 update_charge
