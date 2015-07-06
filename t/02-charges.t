@@ -49,36 +49,4 @@ subtest 'create charge' => sub {
         '... Updated charge data';
 };
 
-subtest 'refund a hold' => sub {
-    my $charge = stripe->create_charge({
-        amount      => 1000,
-        card        => $card->{id},
-        currency    => 'USD',
-        customer    => $customer->{id},
-        capture     => 'false',
-    });
-    cmp_deeply $charge,
-        TD->superhashof({ amount => 1000, captured => JSON::false }),
-        'created hold';
-    my $refund = stripe->refund_charge($charge->{id});
-    cmp_deeply $refund, TD->superhashof({amount => 1000, id => TD->re('^re')}),
-        'created refund';
-};
-
-subtest 'refund a debit' => sub {
-    my $charge = stripe->create_charge({
-        amount      => 1000,
-        card        => $card->{id},
-        currency    => 'USD',
-        customer    => $customer->{id},
-        capture     => 'true',
-    });
-    cmp_deeply $charge,
-        TD->superhashof({ amount => 1000, captured => JSON::true }),
-        'created hold';
-    my $refund = stripe->refund_charge($charge->{id});
-    cmp_deeply $refund, TD->superhashof({amount => 1000, id => TD->re('^re')}),
-        'created refund';
-};
-
 done_testing;
