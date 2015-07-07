@@ -1,17 +1,12 @@
 package t::lib::Common;
 
 use v5.14;
-use Cwd qw( abs_path );
 use Exporter qw(import);
 use Test::More import => [qw(plan)];
 use WebService::Stripe;
 
 my %constants;
 BEGIN {
-    my $PHOTO_DIR = abs_path( $0 );
-    $PHOTO_DIR =~ s/\/([-\d\w]+\.t)//;
-    $PHOTO_DIR .= '/documents';
-
     %constants = (
         # Card Issuers
         STRIPE_CARD_AMEX               => '378282246310005',
@@ -56,8 +51,6 @@ BEGIN {
         STRIPE_BANK_ACCOUNT_INSUFFICIENT_FUNDS => '000222222227',
         STRIPE_BANK_ACCOUNT_NOT_AUTHORIZED     => '000333333335',
         STRIPE_BANK_ACCOUNT_INVALID_CURRENCY   => '000444444440',
-
-        VALID_JPG => "${PHOTO_DIR}/valid.jpg",
     );
 }
 use constant \%constants;

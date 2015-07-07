@@ -351,7 +351,7 @@ Adds a new funding source (credit card) to an existing customer.
 
     update_account($id, data => $data)
 
-=head2 upload_identity_document( $accountID, $absPathToPhoto )
+=head2 upload_identity_document
 
 Uploads a photo ID to an account.
 

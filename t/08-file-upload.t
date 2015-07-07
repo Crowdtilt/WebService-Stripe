@@ -1,5 +1,5 @@
 use Test::Modern;
-use t::lib::Common qw( VALID_JPG skip_unless_has_secret stripe );
+use t::lib::Common qw(skip_unless_has_secret stripe);
 
 skip_unless_has_secret;
 
@@ -10,7 +10,8 @@ my $acct = stripe->create_account({
 
 subtest 'upload_identity_document' => sub {
     subtest "Client can upload and attach a JPG identity document" => sub {
-        my $file = stripe->upload_identity_document( $acct, VALID_JPG );
+        my $jpg_path = "./documents/valid.jpg";
+        my $file = stripe->upload_identity_document( $acct, $jpg_path );
         like $file->{id}, qr/file_\w+/,
             '... Uploaded the file';
 

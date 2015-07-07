@@ -4,7 +4,7 @@ WebService::Stripe - Stripe API bindings
 
 # VERSION
 
-version 0.1000
+version 0.1100
 
 # SYNOPSIS
 
@@ -127,6 +127,13 @@ The data param is optional.
 Refunds the charge with the given id.
 The data param is optional.
 
+## refund\_app\_fee
+
+    refund_app_fee($fee_id, data => $data)
+
+Refunds the application fee with the given id.
+The data param is optional.
+
 ## update\_charge
 
     update_charge($id, $data)
@@ -159,7 +166,7 @@ Adds a new funding source (credit card) to an existing customer.
 
     update_account($id, data => $data)
 
-## upload\_identity\_document( $accountID, $absPathToPhoto )
+## upload\_identity\_document
 
 Uploads a photo ID to an account.
 
