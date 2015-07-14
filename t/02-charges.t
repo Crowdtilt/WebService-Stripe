@@ -5,14 +5,11 @@ use JSON;
 skip_unless_has_secret;
 
 my $customer = stripe->create_customer({ description => 'foo' });
-my $card = stripe->create_card(
-    {
-        'card[number]'    => STRIPE_CARD_VISA,
-        'card[exp_month]' => 12,
-        'card[exp_year]'  => 2020,
-    },
-    customer_id => $customer->{id}
-);
+my $card = stripe->create_card($customer->{'id'}, {
+    'card[number]'    => STRIPE_CARD_VISA,
+    'card[exp_month]' => 12,
+    'card[exp_year]'  => 2020,
+});
 
 subtest 'create charge' => sub {
     my $charge = stripe->create_charge({
@@ -31,14 +28,14 @@ subtest 'create charge' => sub {
         }),
         'created charge';
 
-    $charge = stripe->get_charge($charge, query => { expand => ['customer'] });
+    $charge = stripe->get_charge($charge->{'id'}, { expand => ['customer'] });
     cmp_deeply $charge->{customer}, TD->superhashof({
         object => 'customer',
         id     => $customer->{id},
     }),
         '... Fetched the charge with expanded "customer" relation';
 
-    $charge = stripe->update_charge($charge, {
+    $charge = stripe->update_charge($charge->{'id'}, {
         description     => 'Foobar',
         'metadata[bar]' => 'baz',
     });

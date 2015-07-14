@@ -9,17 +9,15 @@ subtest 'create bank' => sub {
         managed => 'true',
         country => 'CA',
     });
-    my $bank = stripe->add_bank(
-        {
-            'bank_account[country]'        => 'CA',
-            'bank_account[currency]'       => 'cad',
-            'bank_account[routing_number]' => STRIPE_BANK_US_ROUTING_NO,
-            'bank_account[account_number]' => STRIPE_BANK_ACCOUNT,
-        },
-        account_id => $account->{id},
-    );
+    my $bank = stripe->add_bank($account->{'id'}, {
+        'bank_account[country]'        => 'CA',
+        'bank_account[currency]'       => 'cad',
+        'bank_account[routing_number]' => STRIPE_BANK_US_ROUTING_NO,
+        'bank_account[account_number]' => STRIPE_BANK_ACCOUNT,
+    });
     cmp_deeply $bank => TD->superhashof({ last4 => 6789 }), 'created bank';
-    is stripe->get_account($account->{id})->{bank_accounts}{total_count} => 1;
+    is stripe->get_account($account->{'id'})->{bank_accounts}{total_count}, 1,
+        '... Added a bank to the correct Stripe Account';
 };
 
 done_testing;
