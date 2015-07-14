@@ -22,14 +22,14 @@ subtest 'basic stuff' => sub {
 };
 
 subtest 'create customer with no data' => sub {
-    my $cust = stripe->create_customer({});
+    my $cust = stripe->create_customer;
     ok $cust->{id},
         '... Created a customer with no data';
 };
 
 subtest 'Add a funding source to a customer' => sub {
-    my $cust = stripe->create_customer({});
-    my $card = stripe->add_source($cust, {
+    my $cust = stripe->create_customer;
+    my $card = stripe->add_source($cust->{'id'}, {
         "source[object]"    => "card",
         "source[exp_month]" => "12",
         "source[exp_year]"  => "2020",

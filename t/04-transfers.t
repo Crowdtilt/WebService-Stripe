@@ -8,15 +8,12 @@ my $account = stripe->create_account({
     managed => 'true',
     country => 'CA',
 });
-my $bank = stripe->add_bank(
-    {
-        'bank_account[country]'        => 'CA',
-        'bank_account[currency]'       => 'cad',
-        'bank_account[routing_number]' => STRIPE_BANK_US_ROUTING_NO,
-        'bank_account[account_number]' => STRIPE_BANK_ACCOUNT,
-    },
-    account_id => $account->{id},
-);
+my $bank = stripe->add_bank($account->{'id'}, {
+    'bank_account[country]'        => 'CA',
+    'bank_account[currency]'       => 'cad',
+    'bank_account[routing_number]' => STRIPE_BANK_US_ROUTING_NO,
+    'bank_account[account_number]' => STRIPE_BANK_ACCOUNT,
+});
 cmp_deeply $bank => superhashof({ last4 => 6789 }), 'created bank';
 
 subtest 'create a transfer and do stuff with it' => sub {
@@ -32,7 +29,7 @@ subtest 'create a transfer and do stuff with it' => sub {
         '... Created a transfer';
 
     my $transfer_id = $transfer->{id};
-    $transfer = stripe->update_transfer($transfer->{id}, data => {
+    $transfer = stripe->update_transfer($transfer->{id}, {
         'metadata[foo]' => 'bar'
     });
     is $transfer->{id}, $transfer_id,
@@ -82,11 +79,7 @@ subtest 'create_reversal' => sub {
             destination => $account->{'id'},
         });
 
-        my $reversal = stripe->create_reversal($xfer->{'id'},
-            data => {
-                amount => 25,
-            }
-        );
+        my $reversal = stripe->create_reversal($xfer->{'id'}, { amount => 25 });
         cmp_deeply $reversal, superhashof({
             object => 'transfer_reversal',
             amount => 25,
@@ -96,19 +89,25 @@ subtest 'create_reversal' => sub {
     };
 
     subtest "Can reverse an Account-scoped bank transfer" => sub {
-        my $xfer = stripe->create_transfer({
-            amount      => 50,
-            currency    => 'cad',
-            destination => $bank->{'id'},
-        }, headers => { stripe_account => $account->{'id'} });
+        my $xfer = stripe->create_transfer(
+            {
+                amount      => 50,
+                currency    => 'cad',
+                destination => $bank->{'id'},
+            },
+            {
+                stripe_account => $account->{'id'},
+            }
+        );
 
         my $err = exception {
-            stripe->create_reversal($xfer->{'id'},
-                data => {
+            stripe->create_reversal(
+                $xfer->{'id'},
+                {
                     amount => 25,
                 },
-                headers => {
-                    stripe_account => $account->{'id'}
+                {
+                    stripe_account => $account->{'id'},
                 }
             );
         };

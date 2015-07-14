@@ -1,6 +1,6 @@
 package WebService::Stripe;
 use Moo;
-with 'WebService::Client';
+with qw(WebService::Client);
 
 # VERSION
 
@@ -8,6 +8,7 @@ use Carp qw(croak);
 use HTTP::Request::Common qw( POST );
 use Method::Signatures;
 use constant {
+    API_ROOT_URL             => 'https://api.stripe.com',
     FILE_UPLOADS_URL         => 'https://uploads.stripe.com/v1/files',
     FILE_PURPOSE_ID_DOCUMENT => 'identity_document',
     MARKETPLACES_MIN_VERSION => '2014-11-05',
@@ -23,8 +24,7 @@ has version => (
     default => MARKETPLACES_MIN_VERSION,
 );
 
-has '+base_url' => ( default => 'https://api.stripe.com' );
-
+has '+base_url'     => ( default => API_ROOT_URL );
 has '+content_type' => ( default => 'application/x-www-form-urlencoded' );
 
 method BUILD(@args) {
@@ -40,155 +40,181 @@ method next(HashRef $thing, HashRef :$query, HashRef :$headers) {
         { %$query, starting_after => $starting_after }, headers => $headers );
 }
 
-method create_customer(Maybe[HashRef] $data, :$headers) {
-    return $self->post( "/v1/customers", $data, headers => $headers );
+method create_customer($data = {}, $opts = {}) {
+    return $self->_stripe_req(post => '/v1/customers', $data, $opts);
 }
 
-method get_application_fee(Str $id, :$headers) {
-    return $self->get( "/v1/application_fees/$id", {}, headers => $headers );
+method get_application_fee($id!, $query = {}, $opts = {}) {
+    return $self->_stripe_req(get => "/v1/application_fees/$id", $query, $opts);
 }
 
-method get_balance(:$headers) {
-    return $self->get( "/v1/balance", {}, headers => $headers );
+method get_balance($query = {}, $opts = {}) {
+    return $self->_stripe_req(get => '/v1/balance', $query, $opts);
 }
 
-method get_customer(Str $id, :$headers) {
-    return $self->get( "/v1/customers/$id", {}, headers => $headers );
+method get_customer($id!, $query = {}, $opts = {}) {
+    return $self->_stripe_req(get => "/v1/customers/$id", $query, $opts);
 }
 
-method update_customer(Str $id, HashRef $data, :$headers) {
-    return $self->post( "/v1/customers/$id", $data, headers => $headers );
+method update_customer($id!, $data!, $opts = {}) {
+    return $self->_stripe_req(post => "/v1/customers/$id", $data, $opts);
 }
 
-method get_customers(HashRef :$query, :$headers) {
-    return $self->get( "/v1/customers", $query, headers => $headers );
+method get_customers($query = {}, $opts = {}) {
+    return $self->_stripe_req(get => '/v1/customers', $query, $opts);
 }
 
-method create_card(HashRef $data, :$customer_id!, :$headers) {
-    return $self->post(
-        "/v1/customers/$customer_id/cards", $data, headers => $headers );
+method create_card($customer_id!, $data!, $opts = {}) {
+    return $self->_stripe_req(post => "/v1/customers/$customer_id/cards",
+        $data, $opts);
 }
 
-method get_charge(HashRef|Str $charge, :$query, :$headers) {
-    $charge = $charge->{id} if ref $charge;
-    return $self->get( "/v1/charges/$charge", $query, headers => $headers );
+method get_charge($id!, $query = {}, $opts = {}) {
+    return $self->_stripe_req(get => "/v1/charges/$id", $query, $opts);
 }
 
-method create_charge(HashRef $data, :$headers) {
-    return $self->post( "/v1/charges", $data, headers => $headers );
+method create_charge($data!, $opts = {}) {
+    return $self->_stripe_req(post => '/v1/charges', $data, $opts);
 }
 
-method update_charge(HashRef|Str $charge, HashRef $data, :$headers) {
-    $charge = $charge->{id} if ref $charge;
-    return $self->post( "/v1/charges/$charge", $data, headers => $headers );
+method update_charge($id, $data!, $opts = {}) {
+    return $self->_stripe_req(post => "/v1/charges/$id", $data, $opts);
 }
 
-method capture_charge(Str $id, HashRef :$data, :$headers) {
-    return $self->post( "/v1/charges/$id/capture", $data, headers => $headers );
+method capture_charge($id!, $data = {}, $opts = {}) {
+    return $self->_stripe_req(post => "/v1/charges/$id/capture", $data, $opts);
 }
 
-method refund_charge(Str $id, HashRef :$data, :$headers) {
-    return $self->post( "/v1/charges/$id/refunds", $data, headers => $headers );
+method refund_charge($id!, $data = {}, $opts = {}) {
+    return $self->_stripe_req(post => "/v1/charges/$id/refunds", $data, $opts);
 }
 
-method refund_app_fee(Str $fee_id, HashRef :$data, :$headers) {
-    my $url = "/v1/application_fees/$fee_id/refunds";
-    return $self->post( $url, $data, headers => $headers );
+method refund_app_fee($fee_id!, $data = {}, $opts = {}) {
+    return $self->_stripe_req(post => "/v1/application_fees/$fee_id/refunds",
+        $data, $opts);
 }
 
-method add_source(HashRef|Str $cust, HashRef $data, :$headers) {
-    $cust = $cust->{id} if ref $cust;
-    return $self->post( "/v1/customers/$cust/sources", $data, headers => $headers );
+method add_source($customer_id!, $data!, $opts = {}) {
+    return $self->_stripe_req(post => "/v1/customers/$customer_id/sources",
+        $data, $opts);
 }
 
-method create_token(HashRef $data, :$headers) {
-    return $self->post( "/v1/tokens", $data, headers => $headers );
+method create_token($data!, $opts = {}) {
+    return $self->_stripe_req(post => '/v1/tokens', $data, $opts);
 }
 
-method get_token(Str $id, :$headers) {
-    return $self->get( "/v1/tokens/$id", {}, headers => $headers );
+method get_token($token_id!, $query = {}, $opts = {}) {
+    return $self->_stripe_req(get => "/v1/tokens/$token_id", $query, $opts);
 }
 
-method create_account(HashRef $data, :$headers) {
-    return $self->post( "/v1/accounts", $data, headers => $headers );
+method create_account($data!, $opts = {}) {
+    return $self->_stripe_req(post => '/v1/accounts', $data, $opts);
 }
 
-method get_account(Str $id, :$headers) {
-    return $self->get( "/v1/accounts/$id", {}, headers => $headers );
+method get_account($account_id!, $query = {}, $opts = {}) {
+    return $self->_stripe_req(get => "/v1/accounts/$account_id", $query, $opts);
 }
 
-method update_account(Str $id, HashRef :$data!, :$headers) {
-    return $self->post( "/v1/accounts/$id", $data, headers => $headers );
+method update_account($account_id!, $data!, $opts = {}) {
+    return $self->_stripe_req(post => "/v1/accounts/$account_id", $data, $opts);
 }
 
-method upload_identity_document(HashRef|Str $account_id, Str $filepath) {
+method upload_identity_document($data!, $opts = {}) {
+    my $account_id = $data->{'stripe_account'} || $opts->{'stripe_account'}
+        or croak 'data.stripe_account or opts.stripe_account is required';
+    my $filepath = $data->{'filepath'}
+        or croak 'data.filepath is required';
+
     return $self->req(
         POST FILE_UPLOADS_URL,
-        Stripe_Account => ( ref $account_id ? $account_id->{id}: $account_id ),
+        Stripe_Account => "$account_id",
         Content_Type   => 'form-data',
         Content        => [
             purpose => FILE_PURPOSE_ID_DOCUMENT,
-            file    => [ $filepath ],
+            file    => [ "$filepath" ],
         ],
     );
 }
 
-method add_bank(HashRef $data, Str :$account_id!, :$headers) {
-    return $self->post(
-        "/v1/accounts/$account_id/bank_accounts", $data, headers => $headers );
+method add_bank($account_id!, $data!, $opts = {}) {
+    return $self->_stripe_req(post => "/v1/accounts/$account_id/bank_accounts",
+        $data, $opts);
 }
 
-method update_bank(Str $id, Str :$account_id!, HashRef :$data!, :$headers) {
-    return $self->post( "/v1/accounts/$account_id/bank_accounts/$id", $data,
-        headers => $headers );
+method update_bank($account_id!, $bank_id!, $data!, $opts = {}) {
+    return $self->_stripe_req(post =>
+        "/v1/accounts/$account_id/bank_accounts/$bank_id", $data, $opts);
 }
 
-method delete_bank(Str $id, Str :$account_id!, :$headers) {
-    return $self->delete(
-        "/v1/accounts/$account_id/bank_accounts/$id", headers => $headers );
+method delete_bank($account_id!, $bank_id!, $data = {}, $opts = {}) {
+    return $self->_stripe_req(delete =>
+        "/v1/accounts/$account_id/bank_accounts/$bank_id", $data, $opts);
 }
 
-method get_banks(Str :$account_id!, :$headers) {
-    return $self->get(
-        "/v1/accounts/$account_id/bank_accounts", {}, headers => $headers );
+method get_banks($account_id!, $query = {}, $opts = {}) {
+    return $self->_stripe_req(get => "/v1/accounts/$account_id/bank_accounts",
+        $query, $opts);
 }
 
-method create_transfer(HashRef $data, :$headers) {
-    return $self->post( "/v1/transfers", $data, headers => $headers );
+method create_transfer($data!, $opts = {}) {
+    return $self->_stripe_req(post => '/v1/transfers', $data, $opts);
 }
 
-method get_transfer(Str $id, :$headers) {
-    return $self->get( "/v1/transfers/$id", {}, headers => $headers );
+method get_transfer($id, $query = {}, $opts = {}) {
+    return $self->_stripe_req(get => "/v1/transfers/$id", $query, $opts);
 }
 
-method get_transfers(HashRef :$query, :$headers) {
-    return $self->get( "/v1/transfers", $query, headers => $headers );
+method get_transfers($query = {}, $opts = {}) {
+    return $self->_stripe_req(get => '/v1/transfers', $query, $opts);
 }
 
-method update_transfer(Str $id, HashRef :$data!, :$headers) {
-    return $self->post( "/v1/transfers/$id", $data, headers => $headers );
+method update_transfer($id, $data!, $opts = {}) {
+    return $self->_stripe_req(post => "/v1/transfers/$id", $data, $opts);
 }
 
-method cancel_transfer(Str $id, :$headers) {
-    return $self->post("/v1/transfers/$id/cancel", undef, headers => $headers);
+method cancel_transfer($id, $data = {}, $opts = {}) {
+    return $self->_stripe_req(post => "/v1/transfers/$id/cancel", $data, $opts);
 }
 
-method create_reversal($xfer_id, HashRef :$data = {}, HashRef :$headers = {}) {
-    return $self->post("/v1/transfers/$xfer_id/reversals", $data,
-        headers => $headers,
+method create_reversal($xfer_id, $data = {}, $opts = {}) {
+    return $self->_stripe_req(post => "/v1/transfers/$xfer_id/reversals",
+        $data, $opts);
+}
+
+method get_bitcoin_receivers($query = {}, $opts = {}) {
+    return $self->_stripe_req(get => '/v1/bitcoin/receivers', $query, $opts);
+}
+
+method create_bitcoin_receiver($data!, $opts = {}) {
+    return $self->_stripe_req(post => '/v1/bitcoin/receivers', $data, $opts);
+}
+
+method get_bitcoin_receiver($id, $data = {}, $opts = {}) {
+    return $self->_stripe_req(get => "/v1/bitcoin/receivers/$id", $data, $opts);
+}
+
+method _stripe_req($verb, $path, $params, $opts) {
+    my %is_header_opt = (
+        idempotency_key => 1,
+        stripe_account  => 1,
+        stripe_version  => 1,
     );
-}
 
-method get_bitcoin_receivers(HashRef :$query, :$headers) {
-    return $self->get( "/v1/bitcoin/receivers", $query, headers => $headers );
-}
+    my $headers = $opts->{'headers'} // {};
+    while (my ($name => $value) = each $opts) {
+        # Ignore falsey so clients can pass undef or ''
+        next unless $value;
 
-method create_bitcoin_receiver(HashRef $data, :$headers) {
-    return $self->post( "/v1/bitcoin/receivers", $data, headers => $headers );
-}
+        # Normalize option name
+        $name = lc $name;
+        $name =~ s/-/_/g;
+        next unless $is_header_opt{ $name };
 
-method get_bitcoin_receiver(Str $id, :$headers) {
-    return $self->get( "/v1/bitcoin/receivers/$id", {}, headers => $headers );
+        # Set option header
+        $headers->{ $name } = $value;
+    }
+
+    return $self->$verb($path, $params, headers => $headers);
 }
 
 # ABSTRACT: Stripe API bindings
@@ -196,7 +222,7 @@ method get_bitcoin_receiver(Str $id, :$headers) {
 =head1 SYNOPSIS
 
     my $stripe = WebService::Stripe->new(
-        api_key => 'secret',
+        api_key => 'sk_test_123',
         version => '2014-11-05', # optional
     );
     my $customer = $stripe->get_customer('cus_57eDUiS93cycyH');
@@ -208,29 +234,36 @@ secret, then run tests as you normally would using prove.
 
 =head1 HEADERS
 
-WebService::Stripe supports passing custom headers to any API request by passing a hash of header values as the optional C<headers> named parameter:
+WebService::Stripe supports passing custom headers to any API request via the
+$opts argument:
 
-    $stripe->create_charge({ ... }, headers => { stripe_account => "acct_123" })
+    $stripe->create_charge(\%data, { headers => { x_my_header => "..." } })
 
 Note that header names are normalized: C<foo_bar>, C<Foo-Bar>, and C<foo-bar> are equivalent.
 
-Three headers stand out in particular:
+=head2 STRIPE HEADERS
 
-=over
+The $opts argument provides a shortcut for passing Stripe's custom
+"Stripe-Account", "Stripe-Version", and "Idempotency-Key" headers. Simply pass
+any of those values in the $opts hashref (lower-cased, underscore-separated)
+and they'll be added to the current request's headers.
 
-=item Stripe-Version
+Example:
 
-This indicates the version of the Stripe API to use. If not given, we default to C<2014-11-05>, which is the earliest version of the Stripe API to support marketplaces.
+    $stripe->get_balance({}, {
+        idempotency_key => '123456abcdef',
+        stripe_account  => 'acct_1',
+        stripe_version  => '2015-02-10'
+    });
 
-=item Stripe-Account
-
-This specifies the ID of the account on whom the request is being made. It orients the Stripe API around that account, which may limit what records or actions are able to be taken. For example, a `get_card` request will fail if given the ID of a card that was not associated with the account.
-
-=item Idempotency-Key
-
-All POST methods support idempotent requests through setting the value of an Idempotency-Key header. This is useful for preventing a request from being executed twice, e.g. preventing double-charges. If two requests are issued with the same key, only the first results in the creation of a resource; the second returns the latest version of the existing object.
-
-This feature is in ALPHA and subject to change without notice. Contact Stripe to confirm the latest behavior and header name.
+    # Equivalent to...
+    $stripe->get_balance({}, {
+        headers => {
+            'Idempotency-Key' => '123456abcdef',
+            'Stripe-Account'  => 'acct1',
+            'Stripe-Version'  => '2015-02-10'
+        }
+    });
 
 =back
 
@@ -244,7 +277,7 @@ Returns the customer for the given id.
 
 =head2 create_customer
 
-    create_customer($data)
+    create_customer($data!, $opts = {})
 
 Creates a customer.
 The C<$data> hashref is optional.

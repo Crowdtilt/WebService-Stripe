@@ -11,12 +11,15 @@ my $acct = stripe->create_account({
 subtest 'upload_identity_document' => sub {
     subtest "Client can upload and attach a JPG identity document" => sub {
         my $jpg_path = "./documents/valid.jpg";
-        my $file = stripe->upload_identity_document( $acct, $jpg_path );
+        my $file = stripe->upload_identity_document({
+            filepath       => $jpg_path,
+            stripe_account => $acct->{'id'},
+        });
         like $file->{id}, qr/file_\w+/,
             '... Uploaded the file';
 
-        $acct = stripe->update_account( $acct->{id}, data => {
-            'legal_entity[verification][document]' => $file->{id},
+        $acct = stripe->update_account($acct->{id}, {
+            'legal_entity[verification][document]' => $file->{'id'},
         });
         is $acct->{legal_entity}{verification}{document}, $file->{id},
             '... Linked uploaded file to an account';
