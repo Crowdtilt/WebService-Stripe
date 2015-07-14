@@ -173,6 +173,12 @@ method cancel_transfer(Str $id, :$headers) {
     return $self->post("/v1/transfers/$id/cancel", undef, headers => $headers);
 }
 
+method create_reversal($xfer_id, HashRef :$data = {}, HashRef :$headers = {}) {
+    return $self->post("/v1/transfers/$xfer_id/reversals", $data,
+        headers => $headers,
+    );
+}
+
 method get_bitcoin_receivers(HashRef :$query, :$headers) {
     return $self->get( "/v1/bitcoin/receivers", $query, headers => $headers );
 }
@@ -427,6 +433,31 @@ Example:
 =head2 cancel_transfer
 
     cancel_transfer($id)
+
+=head2 create_reversal
+
+Reverses an existing transfer.
+
+L<Stripe Documentation|https://stripe.com/docs/api/python#transfer_reversals>
+
+Example:
+
+    $ws_stripe->create_reversal(
+        # Transfer ID (required)
+        $xfer_id,
+        data => {
+            # POST data (optional)
+            refund_application_fee        => 'true',
+            amount                        => 100,
+            description                   => 'Invoice Correction',
+            'metadata[local_reversal_id]' => 'rvrsl_123',
+            'metadata[requester]'         => 'John Doe'
+        },
+        headers => {
+            # Headers (optional)
+            stripe_account => $account->{'id'}
+        }
+    );
 
 =head2 get_balance
 

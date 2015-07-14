@@ -4,7 +4,7 @@ WebService::Stripe - Stripe API bindings
 
 # VERSION
 
-version 0.1100
+version 0.1200
 
 # SYNOPSIS
 
@@ -242,6 +242,31 @@ Example:
 ## cancel\_transfer
 
     cancel_transfer($id)
+
+## create\_reversal
+
+Reverses an existing transfer.
+
+[Stripe Documentation](https://stripe.com/docs/api/python#transfer_reversals)
+
+Example:
+
+    $ws_stripe->create_reversal(
+        # Transfer ID (required)
+        $xfer_id,
+        data => {
+            # POST data (optional)
+            refund_application_fee        => 'true',
+            amount                        => 100,
+            description                   => 'Invoice Correction',
+            'metadata[local_reversal_id]' => 'rvrsl_123',
+            'metadata[requester]'         => 'John Doe'
+        },
+        headers => {
+            # Headers (optional)
+            stripe_account => $account->{'id'}
+        }
+    );
 
 ## get\_balance
 
