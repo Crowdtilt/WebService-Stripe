@@ -1,6 +1,5 @@
 use Test::Modern;
 use t::lib::Common qw(:constants skip_unless_has_secret stripe);
-use JSON;
 
 skip_unless_has_secret;
 

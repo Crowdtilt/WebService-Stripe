@@ -117,6 +117,10 @@ method get_account(Str $id, :$headers) {
     return $self->get( "/v1/accounts/$id", {}, headers => $headers );
 }
 
+method get_platform_account(:$headers) {
+    return $self->get( "/v1/account", {}, headers => $headers );
+}
+
 method update_account(Str $id, HashRef :$data!, :$headers) {
     return $self->post( "/v1/accounts/$id", $data, headers => $headers );
 }
@@ -356,6 +360,10 @@ Adds a new funding source (credit card) to an existing customer.
 =head2 update_account
 
     update_account($id, data => $data)
+
+=head2 get_platform_account
+
+    get_platform_account($id)
 
 =head2 upload_identity_document
 
