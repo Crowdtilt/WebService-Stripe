@@ -4,7 +4,7 @@ WebService::Stripe - Stripe API bindings
 
 # VERSION
 
-version 0.1200
+version 1.0000
 
 # SYNOPSIS
 
@@ -65,14 +65,14 @@ Example:
 
 ## update\_customer
 
-    update_customer($id, $data)
+    update_customer($id, data => $data)
 
 Updates a customer.
 Returns the updated customer.
 
 Example:
 
-    $customer = $stripe->update_customer($id, { description => 'foo' });
+    $customer = $stripe->update_customer($id, data => { description => 'foo' });
 
 ## get\_customers
 
@@ -136,7 +136,7 @@ The data param is optional.
 
 ## update\_charge
 
-    update_charge($id, $data)
+    update_charge($id, data => $data)
 
 Updates an existing charge object.
 
@@ -165,6 +165,10 @@ Adds a new funding source (credit card) to an existing customer.
 ## update\_account
 
     update_account($id, data => $data)
+
+## get\_platform\_account
+
+    get_platform_account($id)
 
 ## upload\_identity\_document
 

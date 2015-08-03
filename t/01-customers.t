@@ -12,7 +12,8 @@ subtest 'basic stuff' => sub {
     is $cust->{description}, 'foo',
         '... Fetched the created customer';
 
-    $cust = stripe->update_customer($cust->{id}, { description => 'bar' });
+    $cust = stripe->update_customer(
+        $cust->{id}, data=> { description => 'bar' });
     is $cust->{description}, 'bar',
         '... Updated the customer';
 

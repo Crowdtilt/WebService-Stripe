@@ -56,7 +56,7 @@ method get_customer(Str $id, :$headers) {
     return $self->get( "/v1/customers/$id", {}, headers => $headers );
 }
 
-method update_customer(Str $id, HashRef $data, :$headers) {
+method update_customer(Str $id, HashRef :$data!, :$headers) {
     return $self->post( "/v1/customers/$id", $data, headers => $headers );
 }
 
@@ -78,7 +78,7 @@ method create_charge(HashRef $data, :$headers) {
     return $self->post( "/v1/charges", $data, headers => $headers );
 }
 
-method update_charge(HashRef|Str $charge, HashRef $data, :$headers) {
+method update_charge(HashRef|Str $charge, HashRef :$data!, :$headers) {
     $charge = $charge->{id} if ref $charge;
     return $self->post( "/v1/charges/$charge", $data, headers => $headers );
 }
@@ -260,14 +260,14 @@ Example:
 
 =head2 update_customer
 
-    update_customer($id, $data)
+    update_customer($id, data => $data)
 
 Updates a customer.
 Returns the updated customer.
 
 Example:
 
-    $customer = $stripe->update_customer($id, { description => 'foo' });
+    $customer = $stripe->update_customer($id, data => { description => 'foo' });
 
 =head2 get_customers
 
@@ -331,7 +331,7 @@ The data param is optional.
 
 =head2 update_charge
 
-    update_charge($id, $data)
+    update_charge($id, data => $data)
 
 Updates an existing charge object.
 

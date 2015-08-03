@@ -38,7 +38,7 @@ subtest 'create charge' => sub {
     }),
         '... Fetched the charge with expanded "customer" relation';
 
-    $charge = stripe->update_charge($charge, {
+    $charge = stripe->update_charge($charge, data => {
         description     => 'Foobar',
         'metadata[bar]' => 'baz',
     });
