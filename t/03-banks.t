@@ -1,8 +1,6 @@
 use Test::Modern;
 use t::lib::Common qw(:constants skip_unless_has_secret stripe);
 
-skip_unless_has_secret;
-
 subtest 'create bank' => sub {
     my $account = stripe->create_account({
         managed => 'true',

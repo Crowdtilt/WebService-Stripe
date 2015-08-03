@@ -1,0 +1,52 @@
+HTTP/1.1 200 OK
+Connection: close
+Date: Mon, 03 Aug 2015 10:52:22 GMT
+Server: nginx
+Content-Length: 850
+Content-Type: application/json
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Methods: GET, POST, HEAD, OPTIONS, DELETE
+Access-Control-Allow-Origin: *
+Access-Control-Max-Age: 300
+Client-Response-Num: 1
+Client-SSL-Cert-Issuer: /C=US/O=DigiCert Inc/OU=www.digicert.com/CN=DigiCert High Assurance EV CA-1
+Client-SSL-Cert-Subject: /businessCategory=Private Organization/jurisdictionC=US/jurisdictionST=Delaware/serialNumber=4675506/street=3180 18th St., Suite 100/postalCode=94110/C=US/ST=California/L=San Francisco/O=Stripe, Inc/CN=api.stripe.com
+Client-SSL-Cipher: ECDHE-RSA-AES128-SHA256
+Client-SSL-Socket-Class: IO::Socket::SSL
+Request-Id: req_6j8qMwji3jT9qn
+Strict-Transport-Security: max-age=31556926; includeSubDomains
+Stripe-Version: 2014-12-17
+
+{
+  "id": "tr_16VgYM2deYoXyGRTBxFRWURw",
+  "object": "transfer",
+  "created": 1438599142,
+  "date": 1438599142,
+  "livemode": false,
+  "amount": 100,
+  "currency": "cad",
+  "reversed": false,
+  "status": "pending",
+  "type": "stripe_account",
+  "reversals": {
+    "object": "list",
+    "total_count": 0,
+    "has_more": false,
+    "url": "/v1/transfers/tr_16VgYM2deYoXyGRTBxFRWURw/reversals",
+    "data": []
+  },
+  "balance_transaction": "txn_16VgYM2deYoXyGRTgWhkXq8j",
+  "destination": "acct_16VgYIGd7APchvOl",
+  "destination_payment": "py_16VgYMGd7APchvOlYhzUPAau",
+  "description": null,
+  "failure_message": null,
+  "failure_code": null,
+  "amount_reversed": 0,
+  "metadata": {
+    "tester": "WebService::Stripe::create_reversal"
+  },
+  "statement_descriptor": null,
+  "recipient": null,
+  "source_transaction": null,
+  "application_fee": null
+}

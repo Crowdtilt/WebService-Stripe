@@ -1,8 +1,6 @@
 use Test::Modern;
 use t::lib::Common qw(skip_unless_has_secret stripe);
 
-skip_unless_has_secret;
-
 my $acct = stripe->create_account({
     managed => 'true',
     country => 'CA',

@@ -2,6 +2,9 @@ package t::lib::Common;
 
 use v5.14;
 use Exporter qw(import);
+use File::Basename;
+use Memoize;
+use Test::LWP::Recorder;
 use Test::More import => [qw(plan)];
 use WebService::Stripe;
 
@@ -62,8 +65,15 @@ sub skip_unless_has_secret {
     plan skip_all => 'PERL_STRIPE_TEST_API_KEY is required' unless api_key();
 }
 
+memoize 'stripe';
 sub stripe {
     my %params = @_;
+    if ($ENV{LWP_RECORD} or !api_key()) {
+        $params{ua} = Test::LWP::Recorder->new({
+            record    => $ENV{LWP_RECORD},
+            cache_dir => 't/LWPCache/' . basename($0),
+        });
+    }
     state $client = WebService::Stripe->new(
         api_key => api_key(),
         version => '2014-12-17',
