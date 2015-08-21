@@ -7,6 +7,7 @@ with 'WebService::Client';
 use Carp qw(croak);
 use HTTP::Request::Common qw( POST );
 use Method::Signatures;
+use Data::NestedParams;
 use constant {
     FILE_UPLOADS_URL         => 'https://uploads.stripe.com/v1/files',
     FILE_PURPOSE_ID_DOCUMENT => 'identity_document',
@@ -16,6 +17,14 @@ use constant {
 has api_key => (
     is       => 'ro',
     required => 1,
+);
+
+has serializer => (
+    is       => 'ro',
+    default  => sub {
+        my ($data, %args) = @_;
+        return collapse_nested_params($data);
+    }
 );
 
 has version => (
