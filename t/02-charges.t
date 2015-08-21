@@ -7,9 +7,11 @@ skip_unless_has_secret;
 my $customer = stripe->create_customer({ description => 'foo' });
 my $card = stripe->create_card(
     {
-        'card[number]'    => STRIPE_CARD_VISA,
-        'card[exp_month]' => 12,
-        'card[exp_year]'  => 2020,
+        card => {
+            number    => STRIPE_CARD_VISA,
+            exp_month => 12,
+            exp_year  => 2020,
+        }
     },
     customer_id => $customer->{id}
 );

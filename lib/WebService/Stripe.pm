@@ -19,11 +19,12 @@ has api_key => (
     required => 1,
 );
 
-has serializer => (
-    is       => 'ro',
+has '+serializer' => (
     default  => sub {
-        my ($data, %args) = @_;
-        return collapse_nested_params($data);
+        sub {
+            my ($data, %args) = @_;
+            return collapse_nested_params($data);
+        }
     }
 );
 
