@@ -205,6 +205,14 @@ method get_bitcoin_receiver(Str $id, :$headers) {
     return $self->get( "/v1/bitcoin/receivers/$id", {}, headers => $headers );
 }
 
+method get_events(HashRef :$query, :$headers) {
+    return $self->get( "/v1/events", $query, headers => $headers );
+}
+
+method get_event(Str $id, :$headers) {
+    return $self->get( "/v1/events/$id", {}, headers => $headers );
+}
+
 # ABSTRACT: Stripe API bindings
 
 =head1 SYNOPSIS
@@ -500,6 +508,19 @@ Example:
 =head2 get_bitcoin_receiver
 
     get_bitcoin_receiver($id)
+
+=head2 get_event
+
+    get_event($id)
+
+Returns an event for the given id.
+
+=head2 get_events
+
+    get_events(query => $query)
+
+Returns a list of events.
+The query param is optional.
 
 =cut
 
