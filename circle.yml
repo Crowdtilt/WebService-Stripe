@@ -1,0 +1,9 @@
+dependencies:
+  post:
+    - curl -L https://cpanmin.us | perl - --sudo App::cpanminus
+    - cpanm -nS local::lib
+    - cpanm -nS TAP::Parser
+    - cpanm -nL locallib --installdeps .
+test:
+  post:
+    - prove -lr -j 4 -Mlocal::lib=locallib t/*

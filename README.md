@@ -296,10 +296,24 @@ Example:
 
     get_bitcoin_receiver($id)
 
+## get\_event
+
+    get_event($id)
+
+Returns an event for the given id.
+
+## get\_events
+
+    get_events(query => $query)
+
+Returns a list of events.
+The query param is optional.
+
 # AUTHORS
 
 - Naveed Massjouni <naveed@vt.edu>
 - Dan Schmidt <danschmidt5189@gmail.com>
+- Chris Behrens <chris@tilt.com>
 
 # COPYRIGHT AND LICENSE
 
