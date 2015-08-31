@@ -1,3 +1,5 @@
+![CircleCI](https://circleci.com/gh/Crowdtilt/WebService-Stripe/tree/master.svg?style=shield&circle-token=505028f8a50599823a5f7bba3eede65733d1ec77)
+
 # NAME
 
 WebService::Stripe - Stripe API bindings
