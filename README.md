@@ -97,6 +97,34 @@ Example:
         ...
     }
 
+## create\_recipient
+
+    create_recipient($data)
+
+Creates a recipient.
+The `$data` hashref is required and must contain at least `name` and
+`type` (which can be `individual` or `corporate` as per Stripe's
+documentation), but can contain more (see Stripe Docs).
+Returns the recipient.
+
+Example:
+
+    $recipient = $stripe->create_recipient({
+        name => 'John Doe',
+        type => 'individual,
+    });
+
+## get\_recipient
+
+    get_recipient($id)
+
+Retrieves a recipient by id.
+Returns the recipient.
+
+Example:
+
+    $recipient = $stripe->get_recipient('rcp_123');
+
 ## create\_card
 
     create_card($data, customer_id => 'cus_123')

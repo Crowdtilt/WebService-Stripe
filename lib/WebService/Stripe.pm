@@ -54,6 +54,14 @@ method create_customer(Maybe[HashRef] $data, :$headers) {
     return $self->post( "/v1/customers", $data, headers => $headers );
 }
 
+method create_recipient(HashRef $data, :$headers) {
+    return $self->post( "/v1/recipients", $data, headers => $headers );
+}
+
+method get_recipient(Str $id, :$headers) {
+    return $self->get( "/v1/recipients/$id", {}, headers => $headers );
+}
+
 method get_application_fee(Str $id, :$headers) {
     return $self->get( "/v1/application_fees/$id", {}, headers => $headers );
 }
@@ -307,6 +315,35 @@ Example:
     while ($customers = $stripe->next($customers)) {
         ...
     }
+
+=head2 create_recipient
+
+    create_recipient($data)
+
+Creates a recipient.
+The C<$data> hashref is required and must contain at least C<name> and
+C<type> (which can be C<individual> or C<corporate> as per Stripe's
+documentation), but can contain more (see Stripe Docs).
+Returns the recipient.
+
+Example:
+
+    $recipient = $stripe->create_recipient({
+        name => 'John Doe',
+        type => 'individual,
+    });
+
+
+=head2 get_recipient
+
+    get_recipient($id)
+
+Retrieves a recipient by id.
+Returns the recipient.
+
+Example:
+
+    $recipient = $stripe->get_recipient('rcp_123');
 
 =head2 create_card
 
