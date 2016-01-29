@@ -221,6 +221,11 @@ method get_event(Str $id, :$headers) {
     return $self->get( "/v1/events/$id", {}, headers => $headers );
 }
 
+method create_access_token(HashRef $data, :$headers) {
+    my $url = "https://connect.stripe.com/oauth/token";
+    return $self->post( $url, $data, headers => $headers );
+}
+
 # ABSTRACT: Stripe API bindings
 
 =head1 SYNOPSIS
@@ -558,6 +563,13 @@ Returns an event for the given id.
 
 Returns a list of events.
 The query param is optional.
+
+=head2 create_access_token
+
+    create_access_token($data)
+
+Creates an access token for the Stripe Connect oauth flow
+L<https://stripe.com/docs/connect/reference#post-token>
 
 =cut
 
