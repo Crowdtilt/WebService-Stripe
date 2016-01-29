@@ -339,6 +339,13 @@ Returns an event for the given id.
 Returns a list of events.
 The query param is optional.
 
+## create\_access\_token
+
+    create_access_token($data)
+
+Creates an access token for the Stripe Connect oauth flow
+[https://stripe.com/docs/connect/reference#post-token](https://stripe.com/docs/connect/reference#post-token)
+
 # AUTHORS
 
 - Naveed Massjouni <naveed@vt.edu>
