@@ -12,7 +12,7 @@ subtest 'create bank' => sub {
         {
             'bank_account[country]'        => 'CA',
             'bank_account[currency]'       => 'cad',
-            'bank_account[routing_number]' => STRIPE_BANK_US_ROUTING_NO,
+            'bank_account[routing_number]' => STRIPE_BANK_CA_ROUTING_NO,
             'bank_account[account_number]' => STRIPE_BANK_ACCOUNT,
         },
         account_id => $account->{id},

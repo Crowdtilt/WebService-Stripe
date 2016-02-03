@@ -45,6 +45,7 @@ BEGIN {
         STRIPE_TAX_ID_INVALID => '111111111',
         # Banking
         STRIPE_BANK_US_ROUTING_NO              => '110000000',
+        STRIPE_BANK_CA_ROUTING_NO              => '11000-000',
         STRIPE_BANK_ACCOUNT                    => '000123456789',
         STRIPE_BANK_ACCOUNT_NOT_EXISTS         => '000111111116',
         STRIPE_BANK_ACCOUNT_CLOSED             => '000111111113',
