@@ -12,7 +12,7 @@ my $bank = stripe->add_bank(
     {
         'bank_account[country]'        => 'CA',
         'bank_account[currency]'       => 'cad',
-        'bank_account[routing_number]' => STRIPE_BANK_US_ROUTING_NO,
+        'bank_account[routing_number]' => STRIPE_BANK_CA_ROUTING_NO,
         'bank_account[account_number]' => STRIPE_BANK_ACCOUNT,
     },
     account_id => $account->{id},
@@ -57,16 +57,16 @@ subtest 'list transfers' => sub {
     ok $transfers->{data}[0]{amount};
 };
 
-subtest 'create_reversal' => sub {
+subtest 'reverse_transfer' => sub {
     subtest "Can create a complete reversal" => sub {
         my $xfer = stripe->create_transfer({
             amount             => 100,
             currency           => 'cad',
             destination        => $account->{'id'},
-            'metadata[tester]' => 'WebService::Stripe::create_reversal',
+            'metadata[tester]' => 'WebService::Stripe::reverse_transfer',
         });
 
-        my $reversal = stripe->create_reversal($xfer->{'id'});
+        my $reversal = stripe->reverse_transfer($xfer->{'id'});
         cmp_deeply $reversal, superhashof({
             object => 'transfer_reversal',
             amount => 100,
@@ -82,7 +82,7 @@ subtest 'create_reversal' => sub {
             destination => $account->{'id'},
         });
 
-        my $reversal = stripe->create_reversal($xfer->{'id'},
+        my $reversal = stripe->reverse_transfer($xfer->{'id'},
             data => {
                 amount => 25,
             }
@@ -103,7 +103,7 @@ subtest 'create_reversal' => sub {
         }, headers => { stripe_account => $account->{'id'} });
 
         my $err = exception {
-            stripe->create_reversal($xfer->{'id'},
+            stripe->reverse_transfer($xfer->{'id'},
                 data => {
                     amount => 25,
                 },
