@@ -1,10 +1,12 @@
+![CircleCI](https://circleci.com/gh/Crowdtilt/WebService-Stripe/tree/master.svg?style=shield&circle-token=505028f8a50599823a5f7bba3eede65733d1ec77)
+
 # NAME
 
 WebService::Stripe - Stripe API bindings
 
 # VERSION
 
-version 1.0200
+version 1.0300
 
 # SYNOPSIS
 
@@ -275,7 +277,7 @@ Example:
 
     cancel_transfer($id)
 
-## create\_reversal
+## reverse\_transfer
 
 Reverses an existing transfer.
 
@@ -283,7 +285,7 @@ Reverses an existing transfer.
 
 Example:
 
-    $ws_stripe->create_reversal(
+    $ws_stripe->reverse_transfer(
         # Transfer ID (required)
         $xfer_id,
         data => {
