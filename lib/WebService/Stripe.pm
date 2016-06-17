@@ -70,6 +70,14 @@ method get_balance(:$headers) {
     return $self->get( "/v1/balance", {}, headers => $headers );
 }
 
+method get_balance_transactions(HashRef :$query, :$headers) {
+    return $self->get( "/v1/balance/history", $query, headers => $headers );
+}
+
+method get_balance_transaction(Str $id, HashRef :$query, :$headers) {
+    return $self->get( "/v1/balance/history/$id", $query, headers => $headers );
+}
+
 method get_customer(Str $id, :$headers) {
     return $self->get( "/v1/customers/$id", {}, headers => $headers );
 }
@@ -90,6 +98,10 @@ method create_card(HashRef $data, :$customer_id!, :$headers) {
 method get_charge(HashRef|Str $charge, :$query, :$headers) {
     $charge = $charge->{id} if ref $charge;
     return $self->get( "/v1/charges/$charge", $query, headers => $headers );
+}
+
+method get_charges(HashRef :$query, :$headers) {
+    return $self->get( "/v1/charges", $query, headers => $headers );
 }
 
 method create_charge(HashRef $data, :$headers) {
@@ -231,6 +243,14 @@ method create_access_token(HashRef $data, :$headers) {
 
 # ABSTRACT: Stripe API bindings
 
+=head1 NAME
+
+WebService::Stripe - Stripe API bindings
+
+=head1 VERSION
+
+version 1.0400
+
 =head1 SYNOPSIS
 
     my $stripe = WebService::Stripe->new(
@@ -370,6 +390,12 @@ it into Stripe's expected array format.
     create_charge($data)
 
 Creates a charge.
+
+=head2 get_charges
+
+    get_charges($data)
+
+L<Stripe Documentation|https://stripe.com/docs/api#list_charges>
 
 =head2 capture_charge
 
@@ -534,6 +560,18 @@ Example:
 
     get_balance()
 
+=head2 get_balance_transactions
+
+    get_balance_transactions($query)
+
+L<Stripe Documentation|https://stripe.com/docs/api#balance_history>
+
+=head2 get_balance_transaction
+
+    get_balance_transaction($id)
+
+L<Stripe Documentation|https://stripe.com/docs/api#retrieve_balance_transaction>
+
 =head2 get_bitcoin_receivers
 
     get_bitcoin_receivers()
@@ -573,6 +611,25 @@ The query param is optional.
 
 Creates an access token for the Stripe Connect oauth flow
 L<https://stripe.com/docs/connect/reference#post-token>
+
+=head1 AUTHORS
+
+=over
+
+=item Naveed Massjouni <naveed@vt.edu>
+
+=item Dan Schmidt <danschmidt5189@gmail.com>
+
+=item Chris Behrens <chris@tilt.com>
+
+=back
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2014 by Tilt, Inc.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut
 

@@ -10,4 +10,15 @@ subtest "Balance for the Stripe marketplace" => sub {
         or diag explain $bal;
 };
 
+subtest "Balance history" => sub {
+    my $bal = stripe->get_balance_history;
+    cmp_deeply $bal, TD->superhashof({
+        data => TD->superbagof(
+            TD->superhashof({
+                object => 'balance_transaction',
+            }),
+        ),
+    }), '... Fetched balance history';
+};
+
 done_testing;
