@@ -6,7 +6,7 @@ WebService::Stripe - Stripe API bindings
 
 # VERSION
 
-version 1.0300
+version 1.0400
 
 # SYNOPSIS
 
@@ -142,6 +142,12 @@ it into Stripe's expected array format.
     create_charge($data)
 
 Creates a charge.
+
+## get\_charges
+
+    get_charges($data)
+
+[Stripe Documentation](https://stripe.com/docs/api#list_charges)
 
 ## capture\_charge
 
@@ -305,6 +311,18 @@ Example:
 ## get\_balance
 
     get_balance()
+
+## get\_balance\_transactions
+
+    get_balance_transactions($query)
+
+[Stripe Documentation](https://stripe.com/docs/api#balance_history)
+
+## get\_balance\_transaction
+
+    get_balance_transaction($id)
+
+[Stripe Documentation](https://stripe.com/docs/api#retrieve_balance_transaction)
 
 ## get\_bitcoin\_receivers
 

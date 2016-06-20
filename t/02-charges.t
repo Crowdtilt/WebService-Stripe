@@ -33,14 +33,14 @@ subtest 'create charge' => sub {
         }),
         'created charge';
 
-    $charge = stripe->get_charge($charge, query => { expand => ['customer'] });
+    $charge    = stripe->get_charge($charge, query => { expand => ['customer'] });
     cmp_deeply $charge->{customer}, TD->superhashof({
         object => 'customer',
         id     => $customer->{id},
     }),
         '... Fetched the charge with expanded "customer" relation';
 
-    $charge = stripe->update_charge($charge, data => {
+    $charge    = stripe->update_charge($charge, data => {
         description     => 'Foobar',
         'metadata[bar]' => 'baz',
     });
@@ -49,6 +49,16 @@ subtest 'create charge' => sub {
         metadata    => { bar => 'baz' },
     }),
         '... Updated charge data';
+
+    my $charges = stripe->get_charges;
+    cmp_deeply $charges, TD->superhashof({
+        data => TD->superbagof(
+            TD->superhashof({
+                description => 'Foobar',
+                metadata    => { bar => 'baz' },
+            }),
+        ),
+    }), '... Recently created in list';
 };
 
 done_testing;
