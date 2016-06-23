@@ -1,0 +1,338 @@
+HTTP/1.1 200 OK
+Connection: close
+Date: Mon, 03 Aug 2015 10:52:21 GMT
+Server: nginx
+Content-Length: 9508
+Content-Type: application/json
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Methods: GET, POST, HEAD, OPTIONS, DELETE
+Access-Control-Allow-Origin: *
+Access-Control-Max-Age: 300
+Client-Response-Num: 1
+Client-SSL-Cert-Issuer: /C=US/O=DigiCert Inc/OU=www.digicert.com/CN=DigiCert High Assurance EV CA-1
+Client-SSL-Cert-Subject: /businessCategory=Private Organization/jurisdictionC=US/jurisdictionST=Delaware/serialNumber=4675506/street=3180 18th St., Suite 100/postalCode=94110/C=US/ST=California/L=San Francisco/O=Stripe, Inc/CN=api.stripe.com
+Client-SSL-Cipher: ECDHE-RSA-AES128-SHA256
+Client-SSL-Socket-Class: IO::Socket::SSL
+Request-Id: req_6j8qcWVYetX9e6
+Strict-Transport-Security: max-age=31556926; includeSubDomains
+Stripe-Version: 2014-12-17
+
+{
+  "object": "list",
+  "has_more": true,
+  "url": "/v1/transfers",
+  "data": [
+    {
+      "id": "tr_16VgYJ2deYoXyGRTeWMJg6iB",
+      "object": "transfer",
+      "created": 1438599139,
+      "date": 1438599139,
+      "livemode": false,
+      "amount": 100,
+      "currency": "cad",
+      "reversed": false,
+      "status": "paid",
+      "type": "stripe_account",
+      "reversals": {
+        "object": "list",
+        "total_count": 0,
+        "has_more": false,
+        "url": "/v1/transfers/tr_16VgYJ2deYoXyGRTeWMJg6iB/reversals",
+        "data": []
+      },
+      "balance_transaction": "txn_16VgYJ2deYoXyGRTSweyqxaG",
+      "destination": "acct_16VgYIGd7APchvOl",
+      "destination_payment": "py_16VgYJGd7APchvOlCrIxQpfX",
+      "description": null,
+      "failure_message": null,
+      "failure_code": null,
+      "amount_reversed": 0,
+      "metadata": {
+        "foo": "bar"
+      },
+      "statement_descriptor": null,
+      "recipient": null,
+      "source_transaction": null,
+      "application_fee": null
+    },
+    {
+      "id": "tr_16VgYD2deYoXyGRTwYjFygSE",
+      "object": "transfer",
+      "created": 1438599133,
+      "date": 1438599133,
+      "livemode": false,
+      "amount": 309,
+      "currency": "usd",
+      "reversed": false,
+      "status": "paid",
+      "type": "stripe_account",
+      "reversals": {
+        "object": "list",
+        "total_count": 0,
+        "has_more": false,
+        "url": "/v1/transfers/tr_16VgYD2deYoXyGRTwYjFygSE/reversals",
+        "data": []
+      },
+      "balance_transaction": "txn_16VgYD2deYoXyGRT9M9FpBPD",
+      "destination": "acct_16VgYCIcIXchPKrF",
+      "destination_payment": "py_16VgYDIcIXchPKrFehwYiZp1",
+      "description": null,
+      "failure_message": null,
+      "failure_code": null,
+      "amount_reversed": 0,
+      "metadata": {},
+      "statement_descriptor": null,
+      "recipient": null,
+      "source_transaction": "ch_16VgYD2deYoXyGRTYech3CWo",
+      "application_fee": null
+    },
+    {
+      "id": "tr_16VgY82deYoXyGRT0aNndfUl",
+      "object": "transfer",
+      "created": 1438599128,
+      "date": 1438599128,
+      "livemode": false,
+      "amount": 309,
+      "currency": "usd",
+      "reversed": false,
+      "status": "paid",
+      "type": "stripe_account",
+      "reversals": {
+        "object": "list",
+        "total_count": 0,
+        "has_more": false,
+        "url": "/v1/transfers/tr_16VgY82deYoXyGRT0aNndfUl/reversals",
+        "data": []
+      },
+      "balance_transaction": "txn_16VgY82deYoXyGRTTXMT6vrJ",
+      "destination": "acct_16VgY7B8yi8rbRVB",
+      "destination_payment": "py_16VgY8B8yi8rbRVBed6JIUe3",
+      "description": null,
+      "failure_message": null,
+      "failure_code": null,
+      "amount_reversed": 0,
+      "metadata": {},
+      "statement_descriptor": null,
+      "recipient": null,
+      "source_transaction": "ch_16VgY82deYoXyGRTAgWUgLsK",
+      "application_fee": null
+    },
+    {
+      "id": "tr_16VgXQ2deYoXyGRT56InLzI4",
+      "object": "transfer",
+      "created": 1438599084,
+      "date": 1438599084,
+      "livemode": false,
+      "amount": 309,
+      "currency": "usd",
+      "reversed": false,
+      "status": "paid",
+      "type": "stripe_account",
+      "reversals": {
+        "object": "list",
+        "total_count": 0,
+        "has_more": false,
+        "url": "/v1/transfers/tr_16VgXQ2deYoXyGRT56InLzI4/reversals",
+        "data": []
+      },
+      "balance_transaction": "txn_16VgXQ2deYoXyGRTEdmg8Eu1",
+      "destination": "acct_16VgXPCm1ShY0yhQ",
+      "destination_payment": "py_16VgXQCm1ShY0yhQ9cGZevpt",
+      "description": null,
+      "failure_message": null,
+      "failure_code": null,
+      "amount_reversed": 0,
+      "metadata": {},
+      "statement_descriptor": null,
+      "recipient": null,
+      "source_transaction": "ch_16VgXQ2deYoXyGRTdA87seqL",
+      "application_fee": null
+    },
+    {
+      "id": "tr_16VgXN2deYoXyGRTci44cQfV",
+      "object": "transfer",
+      "created": 1438599081,
+      "date": 1438599082,
+      "livemode": false,
+      "amount": 309,
+      "currency": "usd",
+      "reversed": false,
+      "status": "paid",
+      "type": "stripe_account",
+      "reversals": {
+        "object": "list",
+        "total_count": 0,
+        "has_more": false,
+        "url": "/v1/transfers/tr_16VgXN2deYoXyGRTci44cQfV/reversals",
+        "data": []
+      },
+      "balance_transaction": "txn_16VgXO2deYoXyGRTf5BBUczC",
+      "destination": "acct_16VgXMEA8Umh7THP",
+      "destination_payment": "py_16VgXOEA8Umh7THPyld6LtDZ",
+      "description": null,
+      "failure_message": null,
+      "failure_code": null,
+      "amount_reversed": 0,
+      "metadata": {},
+      "statement_descriptor": null,
+      "recipient": null,
+      "source_transaction": "ch_16VgXN2deYoXyGRTp3wUmGpr",
+      "application_fee": null
+    },
+    {
+      "id": "tr_16VgWu2deYoXyGRT8NsCgIH2",
+      "object": "transfer",
+      "created": 1438599052,
+      "date": 1438599052,
+      "livemode": false,
+      "amount": 309,
+      "currency": "usd",
+      "reversed": false,
+      "status": "paid",
+      "type": "stripe_account",
+      "reversals": {
+        "object": "list",
+        "total_count": 0,
+        "has_more": false,
+        "url": "/v1/transfers/tr_16VgWu2deYoXyGRT8NsCgIH2/reversals",
+        "data": []
+      },
+      "balance_transaction": "txn_16VgWu2deYoXyGRTmJXSRk9S",
+      "destination": "acct_16VgWtLurlqRNnyP",
+      "destination_payment": "py_16VgWuLurlqRNnyPdUuBXmZS",
+      "description": null,
+      "failure_message": null,
+      "failure_code": null,
+      "amount_reversed": 0,
+      "metadata": {},
+      "statement_descriptor": null,
+      "recipient": null,
+      "source_transaction": "ch_16VgWu2deYoXyGRThHPUJIM2",
+      "application_fee": null
+    },
+    {
+      "id": "tr_16VgW32deYoXyGRTxGUtewGs",
+      "object": "transfer",
+      "created": 1438598999,
+      "date": 1438598999,
+      "livemode": false,
+      "amount": 309,
+      "currency": "usd",
+      "reversed": false,
+      "status": "paid",
+      "type": "stripe_account",
+      "reversals": {
+        "object": "list",
+        "total_count": 0,
+        "has_more": false,
+        "url": "/v1/transfers/tr_16VgW32deYoXyGRTxGUtewGs/reversals",
+        "data": []
+      },
+      "balance_transaction": "txn_16VgW32deYoXyGRTLupNtMJ9",
+      "destination": "acct_16VgW1C0qajUTn4d",
+      "destination_payment": "py_16VgW3C0qajUTn4dFiXtLJaN",
+      "description": null,
+      "failure_message": null,
+      "failure_code": null,
+      "amount_reversed": 0,
+      "metadata": {},
+      "statement_descriptor": null,
+      "recipient": null,
+      "source_transaction": "ch_16VgW22deYoXyGRTjpSJSO1H",
+      "application_fee": null
+    },
+    {
+      "id": "tr_16VgVT2deYoXyGRTlGFp96Vw",
+      "object": "transfer",
+      "created": 1438598963,
+      "date": 1438598963,
+      "livemode": false,
+      "amount": 309,
+      "currency": "usd",
+      "reversed": false,
+      "status": "paid",
+      "type": "stripe_account",
+      "reversals": {
+        "object": "list",
+        "total_count": 0,
+        "has_more": false,
+        "url": "/v1/transfers/tr_16VgVT2deYoXyGRTlGFp96Vw/reversals",
+        "data": []
+      },
+      "balance_transaction": "txn_16VgVT2deYoXyGRTAZWHoXeM",
+      "destination": "acct_16VgVSGFCgjLPPF1",
+      "destination_payment": "py_16VgVTGFCgjLPPF1tnXeeuXP",
+      "description": null,
+      "failure_message": null,
+      "failure_code": null,
+      "amount_reversed": 0,
+      "metadata": {},
+      "statement_descriptor": null,
+      "recipient": null,
+      "source_transaction": "ch_16VgVT2deYoXyGRTgXK5hwZk",
+      "application_fee": null
+    },
+    {
+      "id": "tr_16VgVO2deYoXyGRTW6WzQVn1",
+      "object": "transfer",
+      "created": 1438598958,
+      "date": 1438598958,
+      "livemode": false,
+      "amount": 103,
+      "currency": "usd",
+      "reversed": false,
+      "status": "paid",
+      "type": "stripe_account",
+      "reversals": {
+        "object": "list",
+        "total_count": 0,
+        "has_more": false,
+        "url": "/v1/transfers/tr_16VgVO2deYoXyGRTW6WzQVn1/reversals",
+        "data": []
+      },
+      "balance_transaction": "txn_16VgVO2deYoXyGRTlMMoqqX1",
+      "destination": "acct_16VgU8IE5a2SIFyu",
+      "destination_payment": "py_16VgVOIE5a2SIFyurlYFjHEd",
+      "description": null,
+      "failure_message": null,
+      "failure_code": null,
+      "amount_reversed": 0,
+      "metadata": {},
+      "statement_descriptor": null,
+      "recipient": null,
+      "source_transaction": "ch_16VgVO2deYoXyGRTwI07GyTr",
+      "application_fee": null
+    },
+    {
+      "id": "tr_16VgUX2deYoXyGRTOnl8sae5",
+      "object": "transfer",
+      "created": 1438598905,
+      "date": 1438598905,
+      "livemode": false,
+      "amount": 310,
+      "currency": "usd",
+      "reversed": false,
+      "status": "paid",
+      "type": "stripe_account",
+      "reversals": {
+        "object": "list",
+        "total_count": 0,
+        "has_more": false,
+        "url": "/v1/transfers/tr_16VgUX2deYoXyGRTOnl8sae5/reversals",
+        "data": []
+      },
+      "balance_transaction": "txn_16VgUX2deYoXyGRT6sPtBNkx",
+      "destination": "acct_16VgUVHCSFl23H6c",
+      "destination_payment": "py_16VgUXHCSFl23H6cwspOq06B",
+      "description": null,
+      "failure_message": null,
+      "failure_code": null,
+      "amount_reversed": 0,
+      "metadata": {},
+      "statement_descriptor": null,
+      "recipient": null,
+      "source_transaction": "ch_16VgUX2deYoXyGRTRMDCZvKL",
+      "application_fee": null
+    }
+  ]
+}

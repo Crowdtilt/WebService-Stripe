@@ -2,8 +2,6 @@ use Test::Modern;
 use t::lib::Common qw(skip_unless_has_secret stripe :constants);
 use JSON;
 
-skip_unless_has_secret;
-
 my $customer = stripe->create_customer({ description => 'foo' });
 my $card = stripe->create_card(
     {

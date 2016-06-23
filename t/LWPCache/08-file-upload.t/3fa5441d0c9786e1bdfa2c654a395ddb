@@ -1,0 +1,28 @@
+HTTP/1.1 200 OK
+Connection: close
+Date: Mon, 03 Aug 2015 10:52:34 GMT
+Server: nginx
+Content-Length: 190
+Content-Type: application/json
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Methods: GET, POST, HEAD, OPTIONS, DELETE
+Access-Control-Allow-Origin: *
+Access-Control-Max-Age: 300
+Client-Response-Num: 1
+Client-SSL-Cert-Issuer: /C=US/O=DigiCert Inc/CN=DigiCert SHA2 Secure Server CA
+Client-SSL-Cert-Subject: /C=US/ST=California/L=San Francisco/O=Stripe, Inc/CN=*.stripe.com
+Client-SSL-Cipher: ECDHE-RSA-AES128-SHA256
+Client-SSL-Socket-Class: IO::Socket::SSL
+Strict-Transport-Security: max-age=31556926; includeSubDomains
+Stripe-Account: acct_16VgYXCqs4KXrebF
+Stripe-Version: 2014-12-17
+
+{
+  "id": "file_16VgYYCqs4KXrebFqgCAwvu7",
+  "created": 1438599154,
+  "size": 14167,
+  "purpose": "identity_document",
+  "object": "file_upload",
+  "url": null,
+  "mimetype": "image/jpeg"
+}

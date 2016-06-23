@@ -2,8 +2,6 @@ use Test::Modern qw(:deeper :fatal :more);
 use t::lib::Common qw(:constants skip_unless_has_secret stripe);
 use JSON qw(from_json);
 
-skip_unless_has_secret;
-
 my $account = stripe->create_account({
     managed => 'true',
     country => 'CA',
